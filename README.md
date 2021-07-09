@@ -1,4 +1,4 @@
-# Unit 8: Group Milestone
+# Podcasting App
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -7,70 +7,104 @@
 
 ## Overview
 ### Description
-An app that tracks your driving, flying, etc. and allows you to offset the carbon created by all of these activities. Lets you compare the carbon emissions of differnt modes of transportation.
-
+This app allows users to track their podcast listening and log it to share it with the world.
 
 ### App Evaluation
-- **Category:** Travel
-- **Mobile:** This app is uniquely mobile because it requires constant GPS location tracking to track driving. This simply cannot be achieved on a desktop expereince.
-- **Story:** The story is compelling because it can help consumers realize how they are impacting the enviroment and allows them to offset them.
-- **Market:** The market for this application is consumers who want to be more environmentally conscious. This includes those that travel by air or car. As most people travel by at least one of these methods on a frequent basis, 
-- **Habit:** The user does not have to have the app open for it to work properly. They will be notified at regular intervals what impact they are having on the environment and can open the app to learn more and offset it.
-- **Scope:** Background tracking of the phone and using flight tracking data to track the impact of the flights.
+- **Category:** Social Media
+- **Mobile:** This application uses location services to see what people are listening to nearby. Additionally, most people listen to podcasts on the go, so having to go back to a desktop to log them would be counterintuitive.
+- **Story:** 
+- **Market:** With over 48 million podcast episodes
+- **Habit:** 
+- **Scope:** 
 
 ## Product Spec
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
 * User is able to sign up for an account
-* User is able to imput flight numbers and see impact of flight on environment
-* User's inputs their daily drive and is let know of the impact of it
-* User can learn about 
+* User is able to input a podcast that they have listened to 
+* User can save podcasts into lists to listen to later
+* Users can search for podcasts
+* Users can view other user's profiles including listened to podcasts and their lists
+* Users can compare their listening tastes to other users (most difficult)
 
 **Optional Nice-to-have Stories**
-* User's driving is tracked to let them know of their daily environmental impact.
-* User can scan boarding pass to automatically load flight details
-* User can view alternatives to driving or flying
+* User can view what podcasts are being listened to nearby them on a map
+* User can listen to podcasts directly in the application 
 
 ### 2. Screen Archetypes
 
 * Login 
 * Register - User signs up or logs into their account
-   * Upon Download/Reopening of the application, the user is prompted to log in to view their history and total impact.
-* Overall Screen
-   * User sees their overall environmental impact, and can offset their overall impact.
-* Driving Screen 
-   * User can see their added  or tracked driving sessions and see how much CO2 they created
-* Flying Screen
-   * User can add their upcoming flights and see how much CO2 they will create
-* Learn Screen
-   * User can learn about how to minimize their impact on the environment 
+   * Upon Download/Reopening of the application, the user is prompted to log in to view their home timeline
+* Timeline Screen
+   * User sees recent activity of other users (reviews, bookmarks, listend to)
+* Search/Discover
+   * User can search for podcasts or discover podcasts that are popular near them on a map.
+* Compare With Friends
+   * User can enter another user's handle to compare their listening history
+* Profile
+   * A profile screen showing the user's top 4 podcasts, recently listened to podcasts, their lists, and average rating.
 * Settings Screen
-   * Lets people change units, language, and app notification settings.
+   * Lets people change language and app notification settings.
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* Overall
-* Driving
-* Flying
-* Learn
-* Settings
+* Timeline
+* Search/Discover
+* Compare
+* Your Profile
 
 Optional:
-* 
+* Settings
 
 **Flow Navigation** (Screen to Screen)
 * Forced Log-in -> Account creation if no log in is available
-* 
-* Settings -> Toggle settings
+* Timeline screen by default
+* Tab view for rest of screens
 
-## Wireframes
-<img src="" width=800><br>
+## Digital Wireframes
+[Wireframes](https://drive.google.com/drive/folders/10OQvORWZlBiuIBbLY2CMyCae-G5caLoe).
 
-### [BONUS] Digital Wireframes & Mockups
-<img src="" height=200>
 
-### [BONUS] Interactive Prototype
-<img src="" width=200>
+## Schema 
+### Models
+
+#### Podcast
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | publisher        | String| the publisher or author of the podcast |
+   | image         | File     | cover photo of podcast (must be square) |
+   | description       | String   | short description of podcast |
+   | descriptionLong       | String   | long description of podcast |
+   | rating    | Number   | the average rating of the podcast |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+
+#### Review
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | author        | Pointer to User| author of review |
+   | podcast         | Pointer to Podcast | podcast that is being written about|
+   | caption       | String   | caption of review |
+   | likesCount    | Number   | number of likes of rating |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+   
+#### User
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | image         | File     | profile image of user |
+   | handle    | String   | the handle of the user |
+   | lists | ArrayList<ArrayList<Podcast>>   | array of arrays of bookmarked podcasts |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+
