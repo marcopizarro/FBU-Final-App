@@ -92,6 +92,7 @@ Optional:
    | objectId      | String   | unique id for the user post (default field) |
    | author        | Pointer to User| author of review |
    | podcast         | Pointer to Podcast | podcast that is being written about|
+   | location         | LatLng | location where podcast was streamed|
    | caption       | String   | caption of review |
    | likesCount    | Number   | number of likes of rating |
    | createdAt     | DateTime | date when post is created (default field) |
@@ -107,4 +108,35 @@ Optional:
    | lists | ArrayList<ArrayList<Podcast>>   | array of arrays of bookmarked podcasts |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
-
+  
+### Network Requests 
+  
+  * Timeline
+    * (GET) Query recent reviews
+    
+    ```java
+        // complete for both users
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.addDescendingOrder("createdAt");
+        query.setLimit(20);
+        query.include(Review.KEY_USER);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Review> review, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Unable to fetch reviews", e);
+                    return;
+                } else {
+                    //do something here
+                }
+            }
+        });
+      ```
+    
+  * Search / Discover
+    * (Get) Query for specific search term(s)
+    * (GET) Query for podcasts listened to nearby
+  * Compare
+    * (GET) Query for podcasts listened to by both users
+    
+    
