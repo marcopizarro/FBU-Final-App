@@ -65,7 +65,7 @@ Optional:
 * Timeline screen by default
 * Tab view for rest of screens
 
-## Digital Wireframes
+## Wireframes
 [Wireframes](https://drive.google.com/drive/folders/10OQvORWZlBiuIBbLY2CMyCae-G5caLoe).
 
 
