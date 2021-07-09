@@ -7,15 +7,15 @@
 
 ## Overview
 ### Description
-This app allows users to track their podcast listening and log it to share it with the world.
+This app allows users to track their podcast listening and log it to share with the world.
 
 ### App Evaluation
 - **Category:** Social Media
 - **Mobile:** This application uses location services to see what people are listening to nearby. Additionally, most people listen to podcasts on the go, so having to go back to a desktop to log them would be counterintuitive.
-- **Story:** 
-- **Market:** With over 48 million podcast episodes
-- **Habit:** 
-- **Scope:** 
+- **Story:** There is clear value added for users who want to be able to look back and see what podcasts they have logged.
+- **Market:** With over 48 million podcast episodes, there are podcasts pertaining to everyone's interests. For those who listen to a lot of podcasts, it would be helpful to have a place to log them.
+- **Habit:** The averaage user will create reviews and logs on the app. The average user would return to the app whenever they listen to a podcast or when they want to check up on what others are listening to.
+- **Scope:** This app isn't too broad that it will be impossible to build. Even a stripped down version would be interesting to build and add value to the end user. But, there are many technically complex aspects that could be added to make it more complex and interesting.
 
 ## Product Spec
 ### 1. User Stories (Required and Optional)
