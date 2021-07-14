@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class AlbumsPager implements Parcelable {
-    public Pager<AlbumSimple> albums;
+    public Pager<Album> albums;
 
 
     @Override

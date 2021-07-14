@@ -16,16 +16,15 @@ import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.AlbumSimple;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
+import kaaes.spotify.webapi.android.models.Show;
+import kaaes.spotify.webapi.android.models.ShowSimple;
+import kaaes.spotify.webapi.android.models.ShowsPager;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Headers;
-import okhttp3.OkHttp;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,39 +52,6 @@ public class MainActivity extends AppCompatActivity {
         authToken = i.getStringExtra(AUTH_TOKEN);
         Log.i(TAG, authToken);
 
-
-
-//        final Request request = new Request.Builder()
-//                .url("https://api.spotify.com/v1/me")
-//                .addHeader("Authorization","Bearer " + authToken)
-//                .build();
-//
-//        if (mCall != null) {
-//            mCall.cancel();
-//        }
-//        mCall = mOkHttpClient.newCall(request);
-//
-//        mCall.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.i(TAG, "errorr", e);
-////                setResponse("Failed to fetch data: " + e);
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                try {
-//                    final JSONObject jsonObject = new JSONObject(response.body().string());
-//                    Log.i(TAG, response.message());
-////                    setResponse(jsonObject.toString(3));
-//                } catch (JSONException e) {
-//                    Log.i(TAG, "error", e);
-////                    setResponse("Failed to parse data: " + e);
-//                }
-//            }
-//        });
-
-
         SpotifyApi api = new SpotifyApi();
 
         // Most (but not all) of the Spotify Web API endpoints require authorisation.
@@ -93,37 +59,43 @@ public class MainActivity extends AppCompatActivity {
         api.setAccessToken(authToken);
         SpotifyService spotify = api.getService();
 
+//        spotify.getShow("61CK08LG8FRIzfiPBl8Oq2", new SpotifyCallback<ShowSimple>() {
+//            @Override
+//            public void failure(SpotifyError error) {
+//                Log.i(TAG, "error fetching", error);
+//            }
+//
+//            @Override
+//            public void success(ShowSimple showSimple, Response response) {
+//                Log.i(TAG, "succeess");
+//                Log.i(TAG, showSimple.name);
+//                Log.i(TAG, showSimple.publisher);
+//
+//                tvMain.setText(showSimple.name);
+//                tvArtist.setText(showSimple.publisher);
+//                Glide.with(MainActivity.this)
+//                        .load(showSimple.images.get(0).url)
+//                        .into(ivAlbum);
+//            }
+//        });
 
-
-        spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new SpotifyCallback<Album>() {
+        spotify.searchShows("talking points", new SpotifyCallback<ShowsPager>() {
             @Override
-            public void success(Album album, retrofit.client.Response response) {
-                Log.i(TAG, album.name);
-                Log.i(TAG, String.valueOf(album.images.get(0).url));
-                tvMain.setText(album.name);
-                tvArtist.setText(album.artists.get(0).name);
-                Glide.with(MainActivity.this)
-                        .load(album.images.get(0).url)
-                        .into(ivAlbum);
+            public void failure(SpotifyError error) {
+
             }
 
             @Override
-            public void failure(SpotifyError spotifyError) {
-                Log.i(TAG, "error fetching", spotifyError);
+            public void success(ShowsPager showsPager, Response response) {
+                Show show =  showsPager.shows.items.get(1);
+                tvMain.setText(show.name);
+                tvArtist.setText(show.publisher);
+                Glide.with(MainActivity.this)
+                        .load(show.images.get(0).url)
+                        .into(ivAlbum);
             }
         });
 
-//        It is also possible to construct the adapter with custom parameters.
-
-//        RestAdapter restAdapter = new RestAdapter.Builder()
-//                .setEndpoint(SpotifyApi.SPOTIFY_WEB_API_ENDPOINT)
-//                .setRequestInterceptor(new RequestInterceptor() {
-//                    @Override
-//                    public void intercept(RequestFacade request) {
-//                        request.addHeader("Authorization", "Bearer " + authToken);
-//                    }
-//                })
-//                .build();
 
     }
 }

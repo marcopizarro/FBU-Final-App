@@ -27,6 +27,8 @@ import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SavedAlbum;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.SeedsGenres;
+import kaaes.spotify.webapi.android.models.ShowSimple;
+import kaaes.spotify.webapi.android.models.ShowsPager;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -577,6 +579,22 @@ public interface SpotifyService {
      */
     @GET("/albums/{id}")
     void getAlbum(@Path("id") String albumId, Callback<Album> callback);
+
+    /**
+     *
+     * SHOWS
+     *
+     *
+     */
+    @GET("/shows/{id}")
+    void getShow(@Path("id") String albumId, Callback<ShowSimple> callback);
+
+    @GET("/shows")
+    void getShows(@Query("ids") String albumIds, Callback<Albums> callback);
+
+    @GET("/search?type=show")
+    void searchShows(@Query("q") String q, Callback<ShowsPager> callback);
+
 
     /**
      * Get Spotify catalog information for a single album.
