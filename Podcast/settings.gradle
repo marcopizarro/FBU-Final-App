@@ -1,2 +1,3 @@
 rootProject.name = "Podcast"
 include ':app'
+include ':spotify-api'

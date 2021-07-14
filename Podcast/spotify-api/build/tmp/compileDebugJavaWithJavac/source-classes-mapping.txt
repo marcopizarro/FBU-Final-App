@@ -1,0 +1,157 @@
+kaaes/spotify/webapi/android/models/PlaylistsPager.java
+ kaaes.spotify.webapi.android.models.PlaylistsPager
+ kaaes.spotify.webapi.android.models.PlaylistsPager$1
+kaaes/spotify/webapi/android/SpotifyCallback.java
+ kaaes.spotify.webapi.android.SpotifyCallback
+kaaes/spotify/webapi/android/models/Artist.java
+ kaaes.spotify.webapi.android.models.Artist
+ kaaes.spotify.webapi.android.models.Artist$1
+kaaes/spotify/webapi/android/models/PlaylistTrack.java
+ kaaes.spotify.webapi.android.models.PlaylistTrack
+ kaaes.spotify.webapi.android.models.PlaylistTrack$1
+kaaes/spotify/webapi/android/models/SavedTrack.java
+ kaaes.spotify.webapi.android.models.SavedTrack
+ kaaes.spotify.webapi.android.models.SavedTrack$1
+kaaes/spotify/webapi/android/models/UserPrivate.java
+ kaaes.spotify.webapi.android.models.UserPrivate
+ kaaes.spotify.webapi.android.models.UserPrivate$1
+kaaes/spotify/webapi/android/models/SnapshotId.java
+ kaaes.spotify.webapi.android.models.SnapshotId
+ kaaes.spotify.webapi.android.models.SnapshotId$1
+kaaes/spotify/webapi/android/models/AudioFeaturesTracks.java
+ kaaes.spotify.webapi.android.models.AudioFeaturesTracks
+ kaaes.spotify.webapi.android.models.AudioFeaturesTracks$1
+kaaes/spotify/webapi/android/models/PlaylistTracksInformation.java
+ kaaes.spotify.webapi.android.models.PlaylistTracksInformation
+ kaaes.spotify.webapi.android.models.PlaylistTracksInformation$1
+kaaes/spotify/webapi/android/models/Followers.java
+ kaaes.spotify.webapi.android.models.Followers
+ kaaes.spotify.webapi.android.models.Followers$1
+kaaes/spotify/webapi/android/models/Pager.java
+ kaaes.spotify.webapi.android.models.Pager
+ kaaes.spotify.webapi.android.models.Pager$1
+com/spotify/webapi/android/BuildConfig.java
+ com.spotify.webapi.android.BuildConfig
+kaaes/spotify/webapi/android/SpotifyApi.java
+ kaaes.spotify.webapi.android.SpotifyApi
+ kaaes.spotify.webapi.android.SpotifyApi$1
+ kaaes.spotify.webapi.android.SpotifyApi$WebApiAuthenticator
+kaaes/spotify/webapi/android/models/SavedAlbum.java
+ kaaes.spotify.webapi.android.models.SavedAlbum
+ kaaes.spotify.webapi.android.models.SavedAlbum$1
+kaaes/spotify/webapi/android/SpotifyError.java
+ kaaes.spotify.webapi.android.SpotifyError
+kaaes/spotify/webapi/android/models/UserPublic.java
+ kaaes.spotify.webapi.android.models.UserPublic
+ kaaes.spotify.webapi.android.models.UserPublic$1
+kaaes/spotify/webapi/android/models/Result.java
+ kaaes.spotify.webapi.android.models.Result
+ kaaes.spotify.webapi.android.models.Result$1
+kaaes/spotify/webapi/android/models/AlbumsPager.java
+ kaaes.spotify.webapi.android.models.AlbumsPager
+ kaaes.spotify.webapi.android.models.AlbumsPager$1
+kaaes/spotify/webapi/android/models/ArtistSimple.java
+ kaaes.spotify.webapi.android.models.ArtistSimple
+ kaaes.spotify.webapi.android.models.ArtistSimple$1
+kaaes/spotify/webapi/android/models/NewReleases.java
+ kaaes.spotify.webapi.android.models.NewReleases
+ kaaes.spotify.webapi.android.models.NewReleases$1
+kaaes/spotify/webapi/android/models/SeedsGenres.java
+ kaaes.spotify.webapi.android.models.SeedsGenres
+ kaaes.spotify.webapi.android.models.SeedsGenres$1
+kaaes/spotify/webapi/android/models/Image.java
+ kaaes.spotify.webapi.android.models.Image
+ kaaes.spotify.webapi.android.models.Image$1
+kaaes/spotify/webapi/android/models/Album.java
+ kaaes.spotify.webapi.android.models.Album
+ kaaes.spotify.webapi.android.models.Album$1
+kaaes/spotify/webapi/android/models/Cursor.java
+ kaaes.spotify.webapi.android.models.Cursor
+ kaaes.spotify.webapi.android.models.Cursor$1
+kaaes/spotify/webapi/android/annotations/DELETEWITHBODY.java
+ kaaes.spotify.webapi.android.annotations.DELETEWITHBODY
+kaaes/spotify/webapi/android/models/TrackSimple.java
+ kaaes.spotify.webapi.android.models.TrackSimple
+ kaaes.spotify.webapi.android.models.TrackSimple$1
+kaaes/spotify/webapi/android/models/AudioFeaturesTrack.java
+ kaaes.spotify.webapi.android.models.AudioFeaturesTrack
+ kaaes.spotify.webapi.android.models.AudioFeaturesTrack$1
+kaaes/spotify/webapi/android/models/Recommendations.java
+ kaaes.spotify.webapi.android.models.Recommendations
+ kaaes.spotify.webapi.android.models.Recommendations$1
+kaaes/spotify/webapi/android/models/ErrorDetails.java
+ kaaes.spotify.webapi.android.models.ErrorDetails
+ kaaes.spotify.webapi.android.models.ErrorDetails$1
+kaaes/spotify/webapi/android/SpotifyService.java
+ kaaes.spotify.webapi.android.SpotifyService
+kaaes/spotify/webapi/android/models/Artists.java
+ kaaes.spotify.webapi.android.models.Artists
+ kaaes.spotify.webapi.android.models.Artists$1
+kaaes/spotify/webapi/android/models/Copyright.java
+ kaaes.spotify.webapi.android.models.Copyright
+ kaaes.spotify.webapi.android.models.Copyright$1
+kaaes/spotify/webapi/android/models/Seed.java
+ kaaes.spotify.webapi.android.models.Seed
+ kaaes.spotify.webapi.android.models.Seed$1
+kaaes/spotify/webapi/android/models/ErrorResponse.java
+ kaaes.spotify.webapi.android.models.ErrorResponse
+ kaaes.spotify.webapi.android.models.ErrorResponse$1
+kaaes/spotify/webapi/android/models/TracksPager.java
+ kaaes.spotify.webapi.android.models.TracksPager
+ kaaes.spotify.webapi.android.models.TracksPager$1
+kaaes/spotify/webapi/android/models/TrackToRemoveWithPosition.java
+ kaaes.spotify.webapi.android.models.TrackToRemoveWithPosition
+ kaaes.spotify.webapi.android.models.TrackToRemoveWithPosition$1
+kaaes/spotify/webapi/android/models/CategoriesPager.java
+ kaaes.spotify.webapi.android.models.CategoriesPager
+ kaaes.spotify.webapi.android.models.CategoriesPager$1
+kaaes/spotify/webapi/android/models/AlbumSimple.java
+ kaaes.spotify.webapi.android.models.AlbumSimple
+ kaaes.spotify.webapi.android.models.AlbumSimple$1
+kaaes/spotify/webapi/android/models/Tracks.java
+ kaaes.spotify.webapi.android.models.Tracks
+ kaaes.spotify.webapi.android.models.Tracks$1
+kaaes/spotify/webapi/android/models/PlaylistBase.java
+ kaaes.spotify.webapi.android.models.PlaylistBase
+kaaes/spotify/webapi/android/models/PlaylistSimple.java
+ kaaes.spotify.webapi.android.models.PlaylistSimple
+ kaaes.spotify.webapi.android.models.PlaylistSimple$1
+kaaes/spotify/webapi/android/models/TrackToRemove.java
+ kaaes.spotify.webapi.android.models.TrackToRemove
+ kaaes.spotify.webapi.android.models.TrackToRemove$1
+kaaes/spotify/webapi/android/models/LinkedTrack.java
+ kaaes.spotify.webapi.android.models.LinkedTrack
+ kaaes.spotify.webapi.android.models.LinkedTrack$1
+kaaes/spotify/webapi/android/models/Playlist.java
+ kaaes.spotify.webapi.android.models.Playlist
+ kaaes.spotify.webapi.android.models.Playlist$1
+kaaes/spotify/webapi/android/models/CursorPager.java
+ kaaes.spotify.webapi.android.models.CursorPager
+ kaaes.spotify.webapi.android.models.CursorPager$1
+kaaes/spotify/webapi/android/models/Albums.java
+ kaaes.spotify.webapi.android.models.Albums
+ kaaes.spotify.webapi.android.models.Albums$1
+kaaes/spotify/webapi/android/models/Category.java
+ kaaes.spotify.webapi.android.models.Category
+ kaaes.spotify.webapi.android.models.Category$1
+kaaes/spotify/webapi/android/models/TracksToRemove.java
+ kaaes.spotify.webapi.android.models.TracksToRemove
+ kaaes.spotify.webapi.android.models.TracksToRemove$1
+kaaes/spotify/webapi/android/models/PlaylistFollowPrivacy.java
+ kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy
+ kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy$1
+kaaes/spotify/webapi/android/models/ArtistsCursorPager.java
+ kaaes.spotify.webapi.android.models.ArtistsCursorPager
+ kaaes.spotify.webapi.android.models.ArtistsCursorPager$1
+kaaes/spotify/webapi/android/models/FeaturedPlaylists.java
+ kaaes.spotify.webapi.android.models.FeaturedPlaylists
+ kaaes.spotify.webapi.android.models.FeaturedPlaylists$1
+kaaes/spotify/webapi/android/models/Track.java
+ kaaes.spotify.webapi.android.models.Track
+ kaaes.spotify.webapi.android.models.Track$1
+kaaes/spotify/webapi/android/models/TracksToRemoveWithPosition.java
+ kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition
+ kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition$1
+kaaes/spotify/webapi/android/models/ArtistsPager.java
+ kaaes.spotify.webapi.android.models.ArtistsPager
+ kaaes.spotify.webapi.android.models.ArtistsPager$1

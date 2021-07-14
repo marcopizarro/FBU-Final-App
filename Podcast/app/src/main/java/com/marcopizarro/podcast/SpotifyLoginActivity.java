@@ -66,32 +66,16 @@ public class SpotifyLoginActivity extends AppCompatActivity {
             final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
             switch (response.getType()) {
-
-                // Response was successful and contains auth token
-
                 case TOKEN:
-
-                    Log.e(TAG, "Auth token: " + response.getAccessToken());
-
                     Intent intent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
                     intent.putExtra(AUTH_TOKEN, response.getAccessToken());
                     startActivity(intent);
                     destroy();
-
                     break;
-
-                // Auth flow returned an error
-
                 case ERROR:
-
                     Log.e(TAG, "Auth error: " + response.getError());
-
                     break;
-
-                // Most likely auth flow was cancelled
-
                 default:
-
                     Log.d(TAG, "Auth result: " + response.getType());
 
             }
@@ -102,7 +86,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
 
 
     public void destroy() {
-
         SpotifyLoginActivity.this.finish();
 
     }
