@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TimelineFragment">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvProfileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        tools:text="Marco Pizarro" />
+
+    <TextView
+        android:id="@+id/tvProfileCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProfileName"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:text="USA"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="20sp"
+        tools:text="USA" />
+
+</RelativeLayout>

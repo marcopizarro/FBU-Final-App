@@ -15,7 +15,8 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="341dp"
         android:backgroundTint="#129F4A"
-        android:text="Log In With Spotify"
+        android:text="Link Your Spotify Account"
         tools:layout_editor_absoluteX="134dp"
         tools:layout_editor_absoluteY="145dp" />
+
 </RelativeLayout>

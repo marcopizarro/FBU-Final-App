@@ -12,6 +12,10 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+
 public class SpotifyLoginActivity extends AppCompatActivity {
 
     private static final String TAG = "SpotifyLoginActivity";
@@ -44,15 +48,10 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     }
 
     private void openLoginWindow() {
-
         AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URL);
-
         builder.setScopes(new String[]{"streaming"});
-
         AuthorizationRequest request = builder.build();
-
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
-
     }
 
     @Override
@@ -60,14 +59,11 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_CODE) {
-
             final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-
             switch (response.getType()) {
                 case TOKEN:
-                    Intent intent = new Intent(SpotifyLoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SpotifyLoginActivity.this, PodcastLoginActivity.class);
                     intent.putExtra(AUTH_TOKEN, response.getAccessToken());
                     startActivity(intent);
                     destroy();
@@ -77,17 +73,13 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     break;
                 default:
                     Log.d(TAG, "Auth result: " + response.getType());
-
             }
-
         }
-
     }
 
 
     public void destroy() {
         SpotifyLoginActivity.this.finish();
-
     }
 
 }
