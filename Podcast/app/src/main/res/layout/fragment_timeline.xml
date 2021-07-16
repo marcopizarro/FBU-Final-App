@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".TimelineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPosts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="timeline" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

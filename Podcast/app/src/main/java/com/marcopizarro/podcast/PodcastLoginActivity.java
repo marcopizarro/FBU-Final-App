@@ -54,7 +54,8 @@ public class PodcastLoginActivity extends AppCompatActivity {
         Log.i(TAG, authToken);
 
         if(ParseUser.getCurrentUser() != null){
-            ParseUser.logOut();
+//            ParseUser.logOut();
+            goMainActivity();
         }
 
         SpotifyApi api = new SpotifyApi();
