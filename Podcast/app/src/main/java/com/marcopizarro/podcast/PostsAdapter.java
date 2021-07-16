@@ -76,9 +76,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             super(itemView);
 
             tvPostUsername = itemView.findViewById(R.id.tvPostUsername);
-            ivPostImage = itemView.findViewById(R.id.ivPostPhoto);
-            tvPostTitle = itemView.findViewById(R.id.tvPostTitle);
-            tvPostPublisher = itemView.findViewById(R.id.tvPostPublisher);
+            ivPostImage = itemView.findViewById(R.id.ivShowPhoto);
+            tvPostTitle = itemView.findViewById(R.id.tvShowTitle);
+            tvPostPublisher = itemView.findViewById(R.id.tvShowPublisher);
             tvPostDesc = itemView.findViewById(R.id.tvPostDesc);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -115,49 +115,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
                 @Override
                 public void success(ShowSimple showSimple, Response response) {
-                    Log.i(TAG, "success");
-
                     Glide.with(context)
                             .load(showSimple.images.get(0).url)
-//                            .circleCrop()
                             .into(ivPostImage);
                     tvPostTitle.setText(showSimple.name);
                     tvPostPublisher.setText(showSimple.publisher);
-                    Log.i(TAG, showSimple.name);
-                    Log.i(TAG, showSimple.publisher);
-                    Log.i(TAG, showSimple.images.get(0).url);
-
                 }
             });
-
-
-//            tvPostDesc.setText(post.getDescription());
-//            tvPostUsername.setText(post.getUser().getUsername());
-//            tvPostTimeAgo.setText(Post.calculateTimeAgo(post.getCreatedAt()));
-//
-//            ParseFile image = post.getImage();
-//            if (image != null) {
-//                Glide.with(context)
-//                        .load(post.getImage().getUrl())
-//                        .into(ivPostImage);
-//            }
-//            ParseUser user = post.getUser();
-//            if  (user != null) {
-//                ParseFile image1 = user.getParseFile("image");
-//                if (image1 != null) {
-//                    Glide.with(context)
-//                            .load(image1.getUrl())
-//                            .circleCrop()
-//                            .into(ivPostUserPhoto);
-//                } else {
-//                    Glide.with(context)
-//                            .load(R.drawable.anon)
-//                            .circleCrop()
-//                            .into(ivPostUserPhoto);
-//                }
-//            }
-
-
         }
     }
 }

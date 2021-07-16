@@ -59,13 +59,14 @@ public class TimelineFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         rvPosts = view.findViewById(R.id.rvPosts);
         allPosts = new ArrayList<>();
         postsAdapter = new PostsAdapter(getContext(), allPosts);
         rvPosts.setAdapter(postsAdapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        super.onViewCreated(view, savedInstanceState);
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("createdAt");
         query.setLimit(20);
@@ -77,8 +78,6 @@ public class TimelineFragment extends Fragment {
                     Log.e(TAG, "Unable to fetch posts", e);
                     return;
                 } else {
-
-
 //                    swipeContainer.setRefreshing(false);
                     postsAdapter.clear();
                     allPosts.addAll(posts);
