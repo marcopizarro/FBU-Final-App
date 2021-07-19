@@ -1,4 +1,4 @@
-# Podcasting App
+# Podcastr App
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -31,6 +31,7 @@ This app allows users to track their podcast listening and log it to share with 
 **Optional Nice-to-have Stories**
 * User can view what podcasts are being listened to nearby them on a map
 * User can listen to podcasts directly in the application 
+* User can sign in using only Spotify which links directly with their Parse login
 
 ### 2. Screen Archetypes
 
@@ -85,15 +86,16 @@ Optional:
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
 
-#### Review
+#### Post
 
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user post (default field) |
    | author        | Pointer to User| author of review |
-   | podcast         | Pointer to Podcast | podcast that is being written about|
+   | podcast         | String | podcast id that is being written about|
    | location         | LatLng | location where podcast was streamed|
    | caption       | String   | caption of review |
+   | Rating       | Number   | number of stars given to review |
    | likesCount    | Number   | number of likes of rating |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
@@ -115,26 +117,47 @@ Optional:
     * (GET) Query recent reviews
     
     ```java
-        // complete for both users
-        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("createdAt");
         query.setLimit(20);
-        query.include(Review.KEY_USER);
+        query.include(Post.KEY_USER);
         query.findInBackground(new FindCallback<Post>() {
             @Override
-            public void done(List<Review> review, ParseException e) {
+            public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Unable to fetch reviews", e);
+                    Log.e(TAG, "Unable to fetch posts", e);
                     return;
                 } else {
-                    //do something here
+
+                    postsAdapter.clear();
+                    allPosts.addAll(posts);
+                    postsAdapter.notifyDataSetChanged();
                 }
             }
         });
       ```
     
-  * Search / Discover
+  * Search / Explore
     * (Get) Query for specific search term(s)
+      ```java
+        SpotifyApi api = new SpotifyApi();
+                api.setAccessToken(MainActivity.getAuthToken());
+                SpotifyService spotify = api.getService();
+
+                spotify.searchShows(etQuery.getText().toString(), new SpotifyCallback<ShowsPager>() {
+                    @Override
+                    public void failure(SpotifyError error) {
+                        Log.e(TAG, "err with search", error);
+                    }
+
+                    @Override
+                    public void success(ShowsPager showsPager, Response response) {
+                        resultsAdapter.clear();
+                        allShows.addAll(showsPager.shows.items);
+                        resultsAdapter.notifyDataSetChanged();
+                    }
+                });
+      ```
     * (GET) Query for podcasts listened to nearby
   * Compare
     * (GET) Query for podcasts listened to by both users
