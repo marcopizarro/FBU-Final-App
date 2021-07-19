@@ -150,7 +150,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvPostTitle.setText("");
             tvPostPublisher.setText("");
             Glide.with(context)
-                    .load(new ColorDrawable(Color.BLACK))
+                    .load(R.drawable.loading_circle)
                     .into(ivPostImage);
             tvPostUsername.setText("");
             tvPostDesc.setText("");

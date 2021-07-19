@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,9 +39,10 @@ public class TimelineFragment extends Fragment {
     public static final String TAG = "TimelineFragment";
 
     private RecyclerView rvPosts;
-    //    private PostsAdapter postsAdapter;
     private List<Post> allPosts;
-    PostsAdapter postsAdapter;
+    private PostsAdapter postsAdapter;
+    private SwipeRefreshLayout swipeContainer;
+
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -64,13 +66,30 @@ public class TimelineFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                queryData();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         rvPosts = view.findViewById(R.id.rvPosts);
         allPosts = new ArrayList<>();
         postsAdapter = new PostsAdapter(getContext(), allPosts);
         rvPosts.setAdapter(postsAdapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryData();
+        swipeContainer.setRefreshing(true);
     }
+
 
     private void queryData() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -84,7 +103,7 @@ public class TimelineFragment extends Fragment {
                     Log.e(TAG, "Unable to fetch posts", e);
                     return;
                 } else {
-//                    swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
 
 //                    for (int i = 0; i < posts.size(); i++){
 //                        SpotifyApi api = new SpotifyApi();
@@ -107,6 +126,7 @@ public class TimelineFragment extends Fragment {
                     postsAdapter.clear();
                     allPosts.addAll(posts);
                     postsAdapter.notifyDataSetChanged();
+
                 }
             }
         });
