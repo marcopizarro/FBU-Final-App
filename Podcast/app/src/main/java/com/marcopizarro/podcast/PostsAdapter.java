@@ -116,18 +116,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
-            tvPostTitle.setText("");
-            tvPostPublisher.setText("");
-            Glide.with(context)
-                    .load(new ColorDrawable(Color.BLACK))
-                    .into(ivPostImage);
-
-            StringBuilder stars = new StringBuilder();
-            for (double i = 1; i <= post.getRating(); i++) {
-                stars.append("★");
-            }
-            tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
-            tvPostDesc.setText(post.getCaption());
+            setPlaceholders();
 
             SpotifyApi api = new SpotifyApi();
             api.setAccessToken(MainActivity.getAuthToken());
@@ -146,8 +135,27 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                             .into(ivPostImage);
                     tvPostTitle.setText(showSimple.name);
                     tvPostPublisher.setText(showSimple.publisher);
+                    StringBuilder stars = new StringBuilder();
+                    for (double i = 1; i <= post.getRating(); i++) {
+                        stars.append("★");
+                    }
+                    tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
+                    tvPostDesc.setText(post.getCaption());
                 }
             });
+
         }
+
+        private void setPlaceholders() {
+            tvPostTitle.setText("");
+            tvPostPublisher.setText("");
+            Glide.with(context)
+                    .load(new ColorDrawable(Color.BLACK))
+                    .into(ivPostImage);
+            tvPostUsername.setText("");
+            tvPostDesc.setText("");
+        }
+
+
     }
 }
