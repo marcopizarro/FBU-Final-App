@@ -88,7 +88,6 @@ public class DetailActivity extends AppCompatActivity {
                 Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
                 i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
                 startActivityForResult(i, REQUEST_CODE);
-
             }
         });
 
@@ -116,9 +115,6 @@ public class DetailActivity extends AppCompatActivity {
                     averageRating /= i;
                     rbStars.setIsIndicator(true);
                     rbStars.setRating(averageRating);
-
-//                    swipeContainer.setRefreshing(false);
-
                     reviewTextAdapter.clear();
                     allReviews.clear();
                     allReviews.addAll(posts);

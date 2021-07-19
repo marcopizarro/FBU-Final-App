@@ -90,11 +90,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-//                        Post post = posts.get(position);
-//                        Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-//                        intent.putExtra("post", Parcels.wrap(post));
-//                        view.getContext().startActivity(intent);
-                        posts.get(position).getPodcast();
+
                         SpotifyApi api = new SpotifyApi();
                         api.setAccessToken(MainActivity.getAuthToken());
                         SpotifyService spotify = api.getService();
@@ -112,14 +108,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                                 view.getContext().startActivity(intent);
                             }
                         });
-
-//
                     }
                 }
             });
         }
 
         public void bind(Post post) {
+            tvPostTitle.setText("");
+            tvPostPublisher.setText("");
+
             StringBuilder stars = new StringBuilder();
             for (double i = 1; i <= post.getRating(); i++) {
                 stars.append("★");

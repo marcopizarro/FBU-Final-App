@@ -1,10 +1,14 @@
 package com.marcopizarro.podcast;
 
 import android.util.Log;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
 import java.util.Date;
+
+import kaaes.spotify.webapi.android.models.Show;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
@@ -12,10 +16,12 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_PODCAST = "podcast";
     public static final String KEY_RATING = "rating";
+    public Show podObj;
 
     public String getCaption() {
         return getString(KEY_CAPTION);
     }
+
     public void setCaption(String caption) {
         put(KEY_CAPTION, caption);
     }
@@ -23,6 +29,7 @@ public class Post extends ParseObject {
     public String getPodcast() {
         return getString(KEY_PODCAST);
     }
+
     public void setPodcast(String podcast) {
         put(KEY_PODCAST, podcast);
     }
@@ -30,6 +37,7 @@ public class Post extends ParseObject {
     public double getRating() {
         return getDouble(KEY_RATING);
     }
+
     public void setRating(double rating) {
         put(KEY_RATING, rating);
     }
@@ -37,8 +45,17 @@ public class Post extends ParseObject {
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
     }
+
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
+    }
+
+    public Show getPodObj() {
+        return podObj;
+    }
+
+    public void setPodObj(Show show) {
+        this.podObj = show;
     }
 
     public static String calculateTimeAgo(Date createdAt) {
