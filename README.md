@@ -31,6 +31,7 @@ This app allows users to track their podcast listening and log it to share with 
 **Optional Nice-to-have Stories**
 * User can view what podcasts are being listened to nearby them on a map
 * User can listen to podcasts directly in the application 
+* User can sign in using only Spotify which links directly with their Parse login
 
 ### 2. Screen Archetypes
 
