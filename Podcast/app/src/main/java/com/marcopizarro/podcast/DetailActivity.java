@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -43,11 +41,15 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvDescription;
     RatingBar rbStars;
     FloatingActionButton btnLog;
+    Show show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        Intent intent = getIntent();
+        show = (Show) Parcels.unwrap(getIntent().getParcelableExtra("show"));
 
         ivCover = findViewById(R.id.ivCover);
         tvTitle = findViewById(R.id.tvTitle);
@@ -55,15 +57,12 @@ public class DetailActivity extends AppCompatActivity {
         rbStars = findViewById(R.id.rbStars);
         tvDescription = findViewById(R.id.tvDescription);
         btnLog = findViewById(R.id.fabLog);
-
         rvReviews = findViewById(R.id.rvReviews);
+
         allReviews = new ArrayList<>();
         reviewTextAdapter = new ReviewTextAdapter(this, allReviews);
         rvReviews.setAdapter(reviewTextAdapter);
         rvReviews.setLayoutManager(new LinearLayoutManager(this));
-
-        Intent intent = getIntent();
-        Show show = (Show) Parcels.unwrap(getIntent().getParcelableExtra("show"));
 
         Glide.with(this)
                 .load(show.images.get(0).url)
@@ -77,10 +76,25 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+        queryReviews();
         tvTitle.setText(show.name);
         tvPublisher.setText(show.publisher);
         tvDescription.setText(show.description);
 
+
+        btnLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
+                i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
+                startActivityForResult(i, REQUEST_CODE);
+
+            }
+        });
+
+    }
+
+    private void queryReviews() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("createdAt");
 //        query.setLimit(20);
@@ -95,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
                 } else {
                     int i;
                     float averageRating = 0;
-                    for (i = 0; i < posts.size(); i++){
+                    for (i = 0; i < posts.size(); i++) {
                         Post post = posts.get(i);
                         averageRating += post.getRating();
                     }
@@ -106,35 +120,17 @@ public class DetailActivity extends AppCompatActivity {
 //                    swipeContainer.setRefreshing(false);
 
                     reviewTextAdapter.clear();
+                    allReviews.clear();
                     allReviews.addAll(posts);
                     reviewTextAdapter.notifyDataSetChanged();
                 }
             }
         });
-
-        btnLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
-                i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
-                startActivityForResult(i, REQUEST_CODE);
-
-            }
-        });
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, String.valueOf(resultCode));
-        Log.i(TAG, "here");
-//        reviewTextAdapter.clear();
-//        allReviews.add(0, );
-//        reviewTextAdapter.notifyItemInserted(0);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-
-//            Intent intent = new Intent(DetailActivity.this, TimelineActivity.class);
-//            startActivity(intent);
-        }
+        queryReviews();
     }
 }

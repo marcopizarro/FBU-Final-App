@@ -71,7 +71,7 @@ public class ComposeActivity extends AppCompatActivity {
                             return;
                         }
                         Log.i(TAG, "Post saved");
-                        Intent i = new Intent(ComposeActivity.this, DetailActivity.class);
+//                        Intent i = new Intent(ComposeActivity.this, MainActivity.class);
 //                        i.putExtra();
                         finish();
 //                        finishActivity(40);
