@@ -25,7 +25,6 @@ import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Show;
-import kaaes.spotify.webapi.android.models.ShowSimple;
 import retrofit.client.Response;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
@@ -39,13 +38,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         this.posts = posts;
     }
 
-    // Clean all elements of the recycler
     public void clear() {
         posts.clear();
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
@@ -76,7 +73,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private ImageView ivPostImage;
         private TextView tvPostTitle;
         private TextView tvPostDesc;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,21 +125,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 }
 
                 @Override
-                public void success(Show showSimple, Response response) {
-                    Glide.with(context)
-                            .load(showSimple.images.get(0).url)
-                            .into(ivPostImage);
-                    tvPostTitle.setText(showSimple.name);
-                    tvPostPublisher.setText(showSimple.publisher);
-                    StringBuilder stars = new StringBuilder();
-                    for (double i = 1; i <= post.getRating(); i++) {
-                        stars.append("★");
-                    }
-                    tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
-                    tvPostDesc.setText(post.getCaption());
+                public void success(Show show, Response response) {
+                    setContent(post, show);
                 }
             });
 
+        }
+
+        private void setContent(Post post, Show show) {
+            Glide.with(context)
+                    .load(show.images.get(0).url)
+                    .into(ivPostImage);
+            tvPostTitle.setText(show.name);
+            tvPostPublisher.setText(show.publisher);
+            StringBuilder stars = new StringBuilder();
+            for (double i = 1; i <= post.getRating(); i++) {
+                stars.append("★");
+            }
+            tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
+            tvPostDesc.setText(post.getCaption());
         }
 
         private void setPlaceholders() {
