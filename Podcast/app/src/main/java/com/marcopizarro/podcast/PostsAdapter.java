@@ -2,6 +2,8 @@ package com.marcopizarro.podcast;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,6 +118,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         public void bind(Post post) {
             tvPostTitle.setText("");
             tvPostPublisher.setText("");
+            Glide.with(context)
+                    .load(new ColorDrawable(Color.BLACK))
+                    .into(ivPostImage);
 
             StringBuilder stars = new StringBuilder();
             for (double i = 1; i <= post.getRating(); i++) {
