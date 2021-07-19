@@ -1,6 +1,7 @@
 package com.marcopizarro.podcast;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -79,12 +82,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition(); // gets item position
-                    if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-//                        Post post = posts.get(position);
-//                        Intent intent = new Intent(view.getContext(), DetailsActivity.class);
-//                        intent.putExtra("post", Parcels.wrap(post));
-//                        view.getContext().startActivity(intent);
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Show show = shows.get(position);
+                        Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                        intent.putExtra("show", Parcels.wrap(show));
+                        view.getContext().startActivity(intent);
                     }
                 }
             });

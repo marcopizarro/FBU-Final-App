@@ -27,6 +27,7 @@ import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SavedAlbum;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.SeedsGenres;
+import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.ShowSimple;
 import kaaes.spotify.webapi.android.models.ShowsPager;
 import kaaes.spotify.webapi.android.models.SnapshotId;
@@ -587,7 +588,7 @@ public interface SpotifyService {
      *
      */
     @GET("/shows/{id}")
-    void getShow(@Path("id") String albumId, Callback<ShowSimple> callback);
+    void getShow(@Path("id") String albumId, Callback<Show> callback);
 
     @GET("/shows")
     void getShows(@Query("ids") String albumIds, Callback<Albums> callback);

@@ -1,6 +1,7 @@
 package com.marcopizarro.podcast;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.ShowSimple;
 import retrofit.client.Response;
 
@@ -84,12 +88,32 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition(); // gets item position
-                    if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
 //                        Post post = posts.get(position);
 //                        Intent intent = new Intent(view.getContext(), DetailsActivity.class);
 //                        intent.putExtra("post", Parcels.wrap(post));
 //                        view.getContext().startActivity(intent);
+                        posts.get(position).getPodcast();
+                        SpotifyApi api = new SpotifyApi();
+                        api.setAccessToken(MainActivity.getAuthToken());
+                        SpotifyService spotify = api.getService();
+
+                        spotify.getShow(posts.get(position).getPodcast(), new SpotifyCallback<Show>() {
+                            @Override
+                            public void failure(SpotifyError error) {
+
+                            }
+
+                            @Override
+                            public void success(Show show, Response response) {
+                                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                                intent.putExtra("show", Parcels.wrap(show));
+                                view.getContext().startActivity(intent);
+                            }
+                        });
+
+//
                     }
                 }
             });
@@ -107,14 +131,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             api.setAccessToken(MainActivity.getAuthToken());
             SpotifyService spotify = api.getService();
 
-            spotify.getShow(post.getPodcast(), new SpotifyCallback<ShowSimple>() {
+            spotify.getShow(post.getPodcast(), new SpotifyCallback<Show>() {
                 @Override
                 public void failure(SpotifyError error) {
                     Log.i(TAG, "error fetching", error);
                 }
 
                 @Override
-                public void success(ShowSimple showSimple, Response response) {
+                public void success(Show showSimple, Response response) {
                     Glide.with(context)
                             .load(showSimple.images.get(0).url)
                             .into(ivPostImage);
