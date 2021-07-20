@@ -1,7 +1,6 @@
 package com.marcopizarro.podcast;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,24 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
-import org.parceler.Parcels;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyCallback;
-import kaaes.spotify.webapi.android.SpotifyError;
-import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Show;
-import retrofit.client.Response;
 
 public class TimelineFragment extends Fragment {
     public static final String TAG = "TimelineFragment";
@@ -81,7 +70,7 @@ public class TimelineFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        rvPosts = view.findViewById(R.id.rvPosts);
+        rvPosts = view.findViewById(R.id.rvPostsTop);
         allPosts = new ArrayList<>();
         postsAdapter = new PostsAdapter(getContext(), allPosts);
         rvPosts.setAdapter(postsAdapter);

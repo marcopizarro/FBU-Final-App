@@ -43,6 +43,8 @@ public class DetailActivity extends AppCompatActivity {
     FloatingActionButton btnLog;
     Show show;
 
+    private boolean descExtStatus = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,18 @@ public class DetailActivity extends AppCompatActivity {
         tvPublisher.setText(show.publisher);
         tvDescription.setText(show.description);
 
+        tvDescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(descExtStatus){
+                    tvDescription.setMaxLines(3);
+                    descExtStatus = false;
+                } else {
+                    tvDescription.setMaxLines(Integer.MAX_VALUE);
+                    descExtStatus = true;
+                }
+            }
+        });
 
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
