@@ -99,9 +99,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
                             @Override
                             public void success(Show show, Response response) {
-                                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                                intent.putExtra("list", Parcels.wrap(show));
-                                view.getContext().startActivity(intent);
+//                                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+//                                intent.putExtra("list", Parcels.wrap(show));
+//                                view.getContext().startActivity(intent);
                             }
                         });
                     }

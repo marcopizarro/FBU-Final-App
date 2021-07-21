@@ -22,6 +22,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -116,19 +117,39 @@ public class DetailActivity extends AppCompatActivity {
         tvAddToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("List");
-                query.getInBackground("U0veepbmpx", new GetCallback<ParseObject>() {
+
+                ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
+                queryLists.addDescendingOrder("createdAt");
+                queryLists.include(Post.KEY_USER);
+                queryLists.whereEqualTo(com.marcopizarro.podcast.List.KEY_USER, ParseUser.getCurrentUser());
+                queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
                     @Override
-                    public void done(ParseObject object, ParseException e) {
-                        object.add("podcasts", show.id);
-                        object.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                Toast.makeText(DetailActivity.this, "Saved to List!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Unable to fetch posts", e);
+                            return;
+                        } else {
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("List");
+                            query.getInBackground(lists.get(0).getObjectId(), new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject object, ParseException e) {
+                                    if(e == null) {
+                                        object.add("podcasts", show.id);
+                                        object.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                Toast.makeText(DetailActivity.this, "Saved to List!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(DetailActivity.this, "No Lists Available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
+
             }
         });
     }
