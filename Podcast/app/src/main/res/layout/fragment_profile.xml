@@ -83,6 +83,37 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Your Lists" />
+
+                <TextView
+                    android:id="@+id/tvAddList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="+ Add A List   "
+                    android:textAlignment="viewEnd" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp" />
+
             <TextView
                 android:id="@+id/tvAvgRating"
                 android:layout_width="match_parent"

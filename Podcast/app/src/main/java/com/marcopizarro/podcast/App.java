@@ -18,6 +18,7 @@ public class App extends Application {
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
         ParseObject.registerSubclass(com.marcopizarro.podcast.Post.class);
+        ParseObject.registerSubclass(com.marcopizarro.podcast.List.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
                 .clientKey(getString(R.string.back4app_client_key))

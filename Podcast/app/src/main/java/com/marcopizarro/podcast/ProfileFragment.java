@@ -1,5 +1,7 @@
 package com.marcopizarro.podcast;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +22,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +39,7 @@ public class ProfileFragment extends Fragment {
     ImageView ivProfileImage;
     TextView tvProfileName;
     TextView tvAverage;
+    TextView tvAddList;
 
     private RecyclerView rvPostsTop;
     private List<Post> topPosts;
@@ -43,6 +48,13 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvPostsRecent;
     private List<Post> recentPosts;
     private ProfileAdapter profileAdapterRecent;
+
+    private RecyclerView rvLists;
+    private List<com.marcopizarro.podcast.List> lists;
+    private ProfileListsAdapter profileListsAdapter;
+
+    public static final int NEW_LIST = 1; // class variable
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,11 +77,12 @@ public class ProfileFragment extends Fragment {
 
         ivProfileImage = getActivity().findViewById(R.id.ivProfileImage);
         tvProfileName = getActivity().findViewById(R.id.tvProfileName);
-        tvAverage =getActivity().findViewById(R.id.tvAvgRating);
+        tvAverage = getActivity().findViewById(R.id.tvAvgRating);
+        tvAddList = getActivity().findViewById(R.id.tvAddList);
 
         UserPrivate userSpotify = MainActivity.getUserSpotify();
         if (userSpotify != null) {
-            if (userSpotify.images != null & userSpotify.images.get(0).url != null){
+            if (userSpotify.images != null & userSpotify.images.get(0).url != null) {
                 Glide.with(this)
                         .load(userSpotify.images.get(0).url)
                         .circleCrop()
@@ -82,17 +95,24 @@ public class ProfileFragment extends Fragment {
         topPosts = new ArrayList<>();
         profileAdapterTop = new ProfileAdapter(getContext(), topPosts);
         rvPostsTop.setAdapter(profileAdapterTop);
-        rvPostsTop.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvPostsTop.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
 
         rvPostsRecent = view.findViewById(R.id.rvPostsRecent);
         recentPosts = new ArrayList<>();
         profileAdapterRecent = new ProfileAdapter(getContext(), recentPosts);
         rvPostsRecent.setAdapter(profileAdapterRecent);
-        rvPostsRecent.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvPostsRecent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        rvLists = view.findViewById(R.id.rvLists);
+        lists = new ArrayList<>();
+        profileListsAdapter = new ProfileListsAdapter(getContext(), lists);
+        rvLists.setAdapter(profileListsAdapter);
+        rvLists.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("rating");
-        query.setLimit(3);
+        query.setLimit(5);
         query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<Post>() {
@@ -111,7 +131,7 @@ public class ProfileFragment extends Fragment {
 
         ParseQuery<Post> queryRecent = ParseQuery.getQuery(Post.class);
         queryRecent.addDescendingOrder("createdAt");
-        queryRecent.setLimit(3);
+        queryRecent.setLimit(5);
         queryRecent.include(Post.KEY_USER);
         queryRecent.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         queryRecent.findInBackground(new FindCallback<Post>() {
@@ -122,8 +142,25 @@ public class ProfileFragment extends Fragment {
                     return;
                 } else {
                     profileAdapterRecent.clear();
-                    recentPosts.addAll(posts);
-                    profileAdapterRecent.notifyDataSetChanged();
+                    profileAdapterRecent.addAll(posts);
+                }
+            }
+        });
+
+        ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
+        queryLists.addDescendingOrder("createdAt");
+//        queryLists.setLimit(5);
+        queryLists.include(Post.KEY_USER);
+//        queryLists.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
+            @Override
+            public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Unable to fetch posts", e);
+                    return;
+                } else {
+                    profileListsAdapter.clear();
+                    profileListsAdapter.addAll(lists);
                 }
             }
         });
@@ -140,7 +177,7 @@ public class ProfileFragment extends Fragment {
                 } else {
                     int i;
                     double sum = 0;
-                    for(i = 0; i < posts.size(); i++){
+                    for (i = 0; i < posts.size(); i++) {
                         sum += posts.get(i).getRating();
                     }
                     tvAverage.setText(String.format("Average rating: %1.1f★", sum /= i));
@@ -148,5 +185,38 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        tvAddList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewListDialogFragment newFragment = new NewListDialogFragment();
+
+                newFragment.setTargetFragment(ProfileFragment.this, NEW_LIST);
+                newFragment.show(getFragmentManager(), "New List");
+            }
+        });
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case NEW_LIST:
+                if (resultCode == Activity.RESULT_OK) {
+                    String name = data.getExtras().getString("name");
+                    com.marcopizarro.podcast.List list = new com.marcopizarro.podcast.List();
+                    list.setName(name);
+                    list.setUser(ParseUser.getCurrentUser());
+                    list.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+
+                        }
+                    });
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+
+                }
+                break;
+        }
+    }
+
 }

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvShowTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="0dp"
         android:gravity="center|center_horizontal"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -35,14 +35,16 @@
 
     <TextView
         android:id="@+id/tvShowTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivShowPhoto"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ivShowPhoto"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         tools:text="Talking Points" />
 

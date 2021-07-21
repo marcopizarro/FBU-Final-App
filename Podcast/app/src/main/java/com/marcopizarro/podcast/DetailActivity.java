@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
     private void queryReviews() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("createdAt");
-//        query.setLimit(20);
+        query.setLimit(5);
         query.include(Post.KEY_USER);
         query.whereEqualTo("podcast", show.id);
         query.findInBackground(new FindCallback<Post>() {
