@@ -25,50 +25,52 @@ import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Show;
 import retrofit.client.Response;
 
-public class ProfileListsAdapter extends RecyclerView.Adapter<ProfileListsAdapter.ViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private Context context;
-    private List<com.marcopizarro.podcast.List> lists;
+    private List<String> shows;
     public static final String TAG = "PostsAdapter";
 
-    public ProfileListsAdapter(Context context, List<com.marcopizarro.podcast.List> lists) {
+    public ListAdapter(Context context, List<String> shows) {
         this.context = context;
-        this.lists = lists;
+        this.shows = shows;
     }
 
     public void clear() {
-        lists.clear();
+        shows.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<com.marcopizarro.podcast.List> list) {
-        lists.addAll(list);
+    public void addAll(List<String> shows) {
+        this.shows.addAll(shows);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_post_profile, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        com.marcopizarro.podcast.List list = lists.get(position);
-        holder.bind(list);
+        String show = shows.get(position);
+        holder.bind(show);
     }
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return shows.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvPostUsername;
+        private TextView tvPostPublisher;
         private ImageView ivPostImage;
         private TextView tvPostTitle;
+        private TextView tvPostDesc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,38 +78,75 @@ public class ProfileListsAdapter extends RecyclerView.Adapter<ProfileListsAdapte
             tvPostUsername = itemView.findViewById(R.id.tvPostUsername);
             ivPostImage = itemView.findViewById(R.id.ivShowPhoto);
             tvPostTitle = itemView.findViewById(R.id.tvShowTitle);
+            tvPostPublisher = itemView.findViewById(R.id.tvShowPublisher);
+            tvPostDesc = itemView.findViewById(R.id.tvPostDesc);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        Intent intent = new Intent(view.getContext(), ListActivty.class);
-                        intent.putExtra("list", Parcels.wrap(lists.get(position)));
-                        view.getContext().startActivity(intent);
+
+                        SpotifyApi api = new SpotifyApi();
+                        api.setAccessToken(MainActivity.getAuthToken());
+                        SpotifyService spotify = api.getService();
+
+                        spotify.getShow(shows.get(position), new SpotifyCallback<Show>() {
+                            @Override
+                            public void failure(SpotifyError error) {
+
+                            }
+
+                            @Override
+                            public void success(Show show, Response response) {
+                                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                                intent.putExtra("list", Parcels.wrap(show));
+                                view.getContext().startActivity(intent);
+                            }
+                        });
                     }
                 }
             });
         }
 
-        public void bind(com.marcopizarro.podcast.List list) {
+        public void bind(String show) {
             setPlaceholders();
-            setContent(list);
+
+            SpotifyApi api = new SpotifyApi();
+            api.setAccessToken(MainActivity.getAuthToken());
+            SpotifyService spotify = api.getService();
+
+            spotify.getShow(show, new SpotifyCallback<Show>() {
+                @Override
+                public void failure(SpotifyError error) {
+                    Log.i(TAG, "error fetching", error);
+                }
+
+                @Override
+                public void success(Show show, Response response) {
+                    setContent(show);
+                }
+            });
+
         }
 
-        private void setContent(com.marcopizarro.podcast.List list) {
+        private void setContent(Show show) {
             Glide.with(context)
-                    .load(list.getCover().getUrl())
+                    .load(show.images.get(0).url)
                     .into(ivPostImage);
-            tvPostTitle.setText(list.getName());
+            tvPostTitle.setText(show.name);
+            tvPostPublisher.setText(show.publisher);
+
         }
 
         private void setPlaceholders() {
             tvPostTitle.setText("");
+            tvPostPublisher.setText("");
             Glide.with(context)
                     .load(R.drawable.loading_circle)
                     .into(ivPostImage);
             tvPostUsername.setText("");
+            tvPostDesc.setText("");
         }
 
 

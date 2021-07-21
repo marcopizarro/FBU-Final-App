@@ -13,8 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Podcast">
-        <activity android:name=".ComposeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".DetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ListActivty"></activity>
+        <activity
+            android:name=".ComposeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.parse.SERVER_URL"
@@ -26,11 +31,18 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
 
-        <activity android:name=".PodcastLoginActivity" android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SpotifyLoginActivity" android:screenOrientation="portrait" >
+        <activity
+            android:name=".PodcastLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SpotifyLoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>

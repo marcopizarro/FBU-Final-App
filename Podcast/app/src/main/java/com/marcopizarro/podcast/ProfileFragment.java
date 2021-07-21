@@ -147,23 +147,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
-        queryLists.addDescendingOrder("createdAt");
-//        queryLists.setLimit(5);
-        queryLists.include(Post.KEY_USER);
-//        queryLists.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
-        queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
-            @Override
-            public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Unable to fetch posts", e);
-                    return;
-                } else {
-                    profileListsAdapter.clear();
-                    profileListsAdapter.addAll(lists);
-                }
-            }
-        });
+        reloadLists();
+
 
         int sum = 0;
         ParseQuery<Post> averageQuery = ParseQuery.getQuery(Post.class);
@@ -209,7 +194,7 @@ public class ProfileFragment extends Fragment {
                     list.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-
+                            reloadLists();
                         }
                     });
                 } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -217,6 +202,25 @@ public class ProfileFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    private void reloadLists() {
+        ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
+        queryLists.addDescendingOrder("createdAt");
+        queryLists.include(Post.KEY_USER);
+        queryLists.whereEqualTo(com.marcopizarro.podcast.List.KEY_USER, ParseUser.getCurrentUser());
+        queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
+            @Override
+            public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Unable to fetch posts", e);
+                    return;
+                } else {
+                    profileListsAdapter.clear();
+                    profileListsAdapter.addAll(lists);
+                }
+            }
+        });
     }
 
 }

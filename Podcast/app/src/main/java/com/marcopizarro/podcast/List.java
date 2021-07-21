@@ -32,11 +32,11 @@ public class List extends ParseObject {
         put(KEY_NAME, name);
     }
 
-    public java.util.List<Show> getPodcasts() {
-        return getList(KEY_POD);
+    public JSONArray getPodcasts() {
+        return getJSONArray(KEY_POD);
     }
 
-    public void setPodcasts(java.util.List<Show> podcasts) {
+    public void setPodcasts(JSONArray podcasts) {
         put(KEY_POD, podcasts);
     }
 

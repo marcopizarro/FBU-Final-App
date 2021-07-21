@@ -13,13 +13,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -39,8 +45,9 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvTitle;
     TextView tvPublisher;
     TextView tvDescription;
+    TextView tvAddToList;
+    TextView tvLog;
     RatingBar rbStars;
-    FloatingActionButton btnLog;
     Show show;
 
     private boolean descExtStatus = false;
@@ -58,8 +65,9 @@ public class DetailActivity extends AppCompatActivity {
         tvPublisher = findViewById(R.id.tvPublisher);
         rbStars = findViewById(R.id.rbStars);
         tvDescription = findViewById(R.id.tvDescription);
-        btnLog = findViewById(R.id.fabLog);
+        tvLog = findViewById(R.id.tvLog);
         rvReviews = findViewById(R.id.rvReviews);
+        tvAddToList = findViewById(R.id.tvAddToList);
 
         allReviews = new ArrayList<>();
         reviewTextAdapter = new ReviewTextAdapter(this, allReviews);
@@ -86,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(descExtStatus){
+                if (descExtStatus) {
                     tvDescription.setMaxLines(3);
                     descExtStatus = false;
                 } else {
@@ -96,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        btnLog.setOnClickListener(new View.OnClickListener() {
+        tvLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
@@ -105,6 +113,24 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        tvAddToList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("List");
+                query.getInBackground("U0veepbmpx", new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        object.add("podcasts", show.id);
+                        object.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(DetailActivity.this, "Saved to List!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     private void queryReviews() {
