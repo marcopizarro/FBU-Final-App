@@ -1,16 +1,20 @@
 package com.marcopizarro.podcast;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
+import com.spotify.sdk.android.auth.AuthorizationClient;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String AUTH_TOKEN = "AUTH_TOKEN";
 
     private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -52,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
         spotify.getMe(new SpotifyCallback<UserPrivate>() {
             @Override
-            public void failure(SpotifyError error) {}
+            public void failure(SpotifyError error) {
+            }
 
             @Override
             public void success(UserPrivate userPrivate, Response response) {
                 userSpotify = userPrivate;
             }
         });
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -84,17 +91,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.btnTimeline);
+
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
     }
 
-    public static String getAuthToken(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            //Back button
+            case R.id.logOut:
+            default:
+                ParseUser.logOut();
+                AuthorizationClient.clearCookies(MainActivity.this);
+                Intent i = new Intent(MainActivity.this, SpotifyLoginActivity.class);
+                startActivity(i);
+                finish();
+                return true;
+        }
+    }
+
+    public void signOut() {
+        Log.i(TAG, "logged out");
+    }
+
+    public static String getAuthToken() {
         return authToken;
     }
 
-    public static UserPrivate getUserSpotify(){
+    public static UserPrivate getUserSpotify() {
         return userSpotify;
     }
 
-    public static ParseUser getUserParse(){
+    public static ParseUser getUserParse() {
         return userParse;
     }
 }

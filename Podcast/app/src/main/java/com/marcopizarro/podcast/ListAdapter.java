@@ -80,33 +80,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             tvPostTitle = itemView.findViewById(R.id.tvShowTitle);
             tvPostPublisher = itemView.findViewById(R.id.tvShowPublisher);
             tvPostDesc = itemView.findViewById(R.id.tvPostDesc);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-
-                        SpotifyApi api = new SpotifyApi();
-                        api.setAccessToken(MainActivity.getAuthToken());
-                        SpotifyService spotify = api.getService();
-
-                        spotify.getShow(shows.get(position), new SpotifyCallback<Show>() {
-                            @Override
-                            public void failure(SpotifyError error) {
-
-                            }
-
-                            @Override
-                            public void success(Show show, Response response) {
-                                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                                intent.putExtra("list", Parcels.wrap(show));
-                                view.getContext().startActivity(intent);
-                            }
-                        });
-                    }
-                }
-            });
         }
 
         public void bind(String show) {
