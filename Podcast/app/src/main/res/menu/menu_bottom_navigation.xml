@@ -9,24 +9,28 @@
         android:enabled="true"
         android:title="Timeline"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/home" />
     <item
         android:id="@+id/btnExplore"
         android:checked="false"
         android:enabled="true"
         android:title="Explore"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/explore" />
     <item
         android:id="@+id/btnCompare"
         android:enabled="true"
         android:title="Compare"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/compare" />
     <item
         android:id="@+id/btnProfile"
         android:enabled="true"
         android:title="Profile"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/profile" />
 </menu>
