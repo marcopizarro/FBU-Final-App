@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
 //                        .circleCrop()
 //                        .into(ivProfileImage);
 //            }
-//            tvProfileName.setText(userSpotify.display_name);
+            tvProfileName.setText(parseUser.getUsername());
 //        }
 
         rvPostsTop = findViewById(R.id.rvPostsTop);
