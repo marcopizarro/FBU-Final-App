@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,23 +25,26 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 
 
-public class ProfileFragment extends Fragment {
+public class ProfileActivity extends AppCompatActivity {
 
-    public static final String TAG = "ProfileFragment";
+    public static final String TAG = "PA";
 
     ImageView ivProfileImage;
     TextView tvProfileName;
     TextView tvAverage;
     TextView tvAddList;
 
-    ParseUser parseUser = MainActivity.getUserParse();
+    ParseUser parseUser;
+    UserPrivate userSpotify = MainActivity.getUserSpotify();
 
     private RecyclerView rvPostsTop;
     private List<Post> topPosts;
@@ -56,60 +60,45 @@ public class ProfileFragment extends Fragment {
 
     public static final int NEW_LIST = 1; // class variable
 
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.fragment_profile_other);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
+        Intent intent = getIntent();
+        parseUser = (ParseUser) Parcels.unwrap(getIntent().getParcelableExtra("user"));
 
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        ivProfileImage = findViewById(R.id.ivProfileImage);
+        tvProfileName = findViewById(R.id.tvProfileName);
+        tvAverage = findViewById(R.id.tvAvgRating);
 
-        ivProfileImage = getActivity().findViewById(R.id.ivProfileImage);
-        tvProfileName = getActivity().findViewById(R.id.tvProfileName);
-        tvAverage = getActivity().findViewById(R.id.tvAvgRating);
-        tvAddList = getActivity().findViewById(R.id.tvAddLIst);
-
-        UserPrivate userSpotify = MainActivity.getUserSpotify();
-        if (userSpotify != null) {
+//        if (userSpotify != null) {
 //            if (userSpotify.images != null & userSpotify.images.get(0).url != null) {
 //                Glide.with(this)
 //                        .load(userSpotify.images.get(0).url)
 //                        .circleCrop()
 //                        .into(ivProfileImage);
 //            }
-            tvProfileName.setText(parseUser.getUsername());
-        }
+//            tvProfileName.setText(userSpotify.display_name);
+//        }
 
-        rvPostsTop = view.findViewById(R.id.rvPostsTop);
+        rvPostsTop = findViewById(R.id.rvPostsTop);
         topPosts = new ArrayList<>();
-        profileAdapterTop = new ProfileAdapter(getContext(), topPosts);
+        profileAdapterTop = new ProfileAdapter(this, topPosts);
         rvPostsTop.setAdapter(profileAdapterTop);
-        rvPostsTop.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvPostsTop.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-
-        rvPostsRecent = view.findViewById(R.id.rvPostsRecent);
+        rvPostsRecent = findViewById(R.id.rvPostsRecent);
         recentPosts = new ArrayList<>();
-        profileAdapterRecent = new ProfileAdapter(getContext(), recentPosts);
+        profileAdapterRecent = new ProfileAdapter(this, recentPosts);
         rvPostsRecent.setAdapter(profileAdapterRecent);
-        rvPostsRecent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvPostsRecent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        rvLists = view.findViewById(R.id.rvLists);
+        rvLists = findViewById(R.id.rvLists);
         lists = new ArrayList<>();
-        profileListsAdapter = new ProfileListsAdapter(getContext(), lists);
+        profileListsAdapter = new ProfileListsAdapter(this, lists);
         rvLists.setAdapter(profileListsAdapter);
-        rvLists.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvLists.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.addDescendingOrder("rating");
@@ -171,39 +160,9 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        tvAddList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewListDialogFragment newFragment = new NewListDialogFragment();
-
-                newFragment.setTargetFragment(ProfileFragment.this, NEW_LIST);
-                newFragment.show(getFragmentManager(), "New List");
-            }
-        });
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case NEW_LIST:
-                if (resultCode == Activity.RESULT_OK) {
-                    String name = data.getExtras().getString("name");
-                    com.marcopizarro.podcast.List list = new com.marcopizarro.podcast.List();
-                    list.setName(name);
-                    list.setUser(parseUser);
-                    list.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            reloadLists();
-                        }
-                    });
-                } else if (resultCode == Activity.RESULT_CANCELED) {
-
-                }
-                break;
-        }
-    }
 
     private void reloadLists() {
         ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);

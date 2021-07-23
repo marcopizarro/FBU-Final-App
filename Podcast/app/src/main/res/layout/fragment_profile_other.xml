@@ -94,17 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
-                    android:text="Your Lists" />
+                    android:text="Lists" />
 
-                <TextView
-                    android:id="@+id/tvAddLIst"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_weight="1"
-                    android:text="+ Add A List   "
-                    android:textAlignment="viewEnd" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

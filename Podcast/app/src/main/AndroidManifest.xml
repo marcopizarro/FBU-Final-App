@@ -13,7 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Podcast">
-        <activity android:name=".ListActivty"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListActivty"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ComposeActivity"
             android:screenOrientation="portrait" />

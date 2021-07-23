@@ -129,7 +129,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     setContent(post, show);
                 }
             });
-
         }
 
         private void setContent(Post post, Show show) {
@@ -142,8 +141,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             for (double i = 1; i <= post.getRating(); i++) {
                 stars.append("★");
             }
-            tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
+
             tvPostDesc.setText(post.getCaption());
+
+            tvPostUsername.setText(String.format("%s rated %s", post.getUser().getUsername(), stars));
+            tvPostUsername.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), ProfileActivity.class);
+                    intent.putExtra("user", Parcels.wrap(post.getUser()));
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
 
         private void setPlaceholders() {
@@ -155,7 +164,5 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvPostUsername.setText("");
             tvPostDesc.setText("");
         }
-
-
     }
 }
