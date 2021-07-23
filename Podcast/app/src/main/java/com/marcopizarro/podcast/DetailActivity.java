@@ -10,13 +10,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -25,8 +27,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -34,13 +34,16 @@ import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Show;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "DetailActivity";
     public static final int REQUEST_CODE = 40;
 
     private ReviewTextAdapter reviewTextAdapter;
     private RecyclerView rvReviews;
     private List<Post> allReviews;
+    private List<com.marcopizarro.podcast.List> allLists;
+
+    private int chosenList = 0;
 
     ImageView ivCover;
     TextView tvTitle;
@@ -50,6 +53,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvLog;
     RatingBar rbStars;
     Show show;
+
 
     private boolean descExtStatus = false;
 
@@ -114,42 +118,54 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayList<String> listNames = new ArrayList<String>();
+        allLists = new ArrayList<com.marcopizarro.podcast.List>();
+        ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
+        queryLists.addDescendingOrder("createdAt");
+        queryLists.include(Post.KEY_USER);
+        queryLists.whereEqualTo(com.marcopizarro.podcast.List.KEY_USER, ParseUser.getCurrentUser());
+        queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
+            @Override
+            public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Unable to fetch posts", e);
+                    return;
+                } else {
+                    allLists.addAll(lists);
+                    for (int i = 0; i < lists.size(); i++) {
+                        listNames.add(lists.get(i).getName());
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(DetailActivity.this, android.R.layout.simple_spinner_dropdown_item, listNames);
+                    spinner.setAdapter(adapter);
+                    spinner.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
         tvAddToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
-                queryLists.addDescendingOrder("createdAt");
-                queryLists.include(Post.KEY_USER);
-                queryLists.whereEqualTo(com.marcopizarro.podcast.List.KEY_USER, ParseUser.getCurrentUser());
-                queryLists.findInBackground(new FindCallback<com.marcopizarro.podcast.List>() {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("List");
+                query.getInBackground(allLists.get(chosenList).getObjectId(), new GetCallback<ParseObject>() {
                     @Override
-                    public void done(List<com.marcopizarro.podcast.List> lists, ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Unable to fetch posts", e);
-                            return;
-                        } else {
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("List");
-                            query.getInBackground(lists.get(0).getObjectId(), new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            object.add("podcasts", show.id);
+                            object.saveInBackground(new SaveCallback() {
                                 @Override
-                                public void done(ParseObject object, ParseException e) {
-                                    if(e == null) {
-                                        object.add("podcasts", show.id);
-                                        object.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                Toast.makeText(DetailActivity.this, "Saved to List!", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    } else {
-                                        Toast.makeText(DetailActivity.this, "No Lists Available", Toast.LENGTH_SHORT).show();
-                                    }
+                                public void done(ParseException e) {
+                                    Toast.makeText(DetailActivity.this, "Saved to List!", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                        } else {
+                            Toast.makeText(DetailActivity.this, "No Lists Available", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
             }
         });
     }
@@ -189,5 +205,15 @@ public class DetailActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         queryReviews();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        chosenList = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
