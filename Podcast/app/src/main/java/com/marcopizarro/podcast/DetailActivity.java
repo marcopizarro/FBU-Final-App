@@ -112,9 +112,26 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         tvLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
-                i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
-                startActivityForResult(i, REQUEST_CODE);
+                ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+                query.addDescendingOrder("createdAt");
+                query.include(Post.KEY_USER);
+                query.whereEqualTo("podcast", show.id);
+                query.whereEqualTo(com.marcopizarro.podcast.Post.KEY_USER, ParseUser.getCurrentUser());
+                query.findInBackground(new FindCallback<Post>() {
+                    @Override
+                    public void done(List<Post> posts, ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Unable to fetch posts", e);
+                            return;
+                        } else if(posts == null){
+                            Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
+                            i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
+                            startActivityForResult(i, REQUEST_CODE);
+                        } else {
+                            Toast.makeText(DetailActivity.this, "Already Logged Podcast", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
