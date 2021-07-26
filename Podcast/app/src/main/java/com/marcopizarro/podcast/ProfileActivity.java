@@ -36,7 +36,7 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    public static final String TAG = "PA";
+    public static final String TAG = "Profile Activity";
 
     ImageView ivProfileImage;
     TextView tvProfileName;
