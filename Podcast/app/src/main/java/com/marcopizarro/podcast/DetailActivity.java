@@ -123,7 +123,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
                         if (e != null) {
                             Log.e(TAG, "Unable to fetch posts", e);
                             return;
-                        } else if(posts == null){
+                        } else if(posts.size() <= 0){
                             Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
                             i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
                             startActivityForResult(i, REQUEST_CODE);
