@@ -42,6 +42,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView tvName1;
     private TextView tvName2;
     private TextView tvNoItems;
+    private TextView tvCompatScore;
 
     private RecyclerView rvPodInCommon;
     private List<Post> podInCommon;
@@ -75,6 +76,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         tvName1 = view.findViewById(R.id.tvName1);
         tvName2 = view.findViewById(R.id.tvName2);
         tvNoItems = view.findViewById(R.id.tvNoItems);
+        tvCompatScore = view.findViewById(R.id.tvCompatScore);
 
         rvPodInCommon = view.findViewById(R.id.rvPodInCommon);
         adapterPodInCommon = new CompareAdapter(getContext(), new ArrayList<>());
@@ -136,14 +138,19 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                                 return;
                             } else {
                                 List<Post> intersection = intersection(postsUser1, postsUser2);
+                                double comp = getCompatibilityScore(intersection);
+                                tvCompatScore.setText(String.format("You Compatibility Score is %2.2f%%", comp));
+                                Log.i(TAG, String.valueOf(comp));
                                 if(intersection.size() >= 1) {
                                     adapterPodInCommon.clear();
                                     adapterPodInCommon.addAll(intersection);
                                     rvPodInCommon.setVisibility(View.VISIBLE);
                                     tvNoItems.setVisibility(View.INVISIBLE);
+                                    tvCompatScore.setVisibility(View.VISIBLE);
                                 } else {
                                     rvPodInCommon.setVisibility(View.INVISIBLE);
                                     tvNoItems.setVisibility(View.VISIBLE);
+                                    tvCompatScore.setVisibility(View.INVISIBLE);
                                 }
                             }
                         }
@@ -153,6 +160,19 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         });
 
 
+    }
+
+    private double getCompatibilityScore(List<Post> intersection) {
+        if(intersection.size() <= 0){
+            return 0;
+        } else {
+            double average = 0;
+            for(Post post : intersection){
+                average += post.getRating();
+            }
+            Log.i(TAG, String.valueOf(average));
+            return 100 - Math.abs((average /= intersection.size()) * 20.0);
+        }
     }
 
     public List<Post> intersection(List<Post> list1, List<Post> list2) {
