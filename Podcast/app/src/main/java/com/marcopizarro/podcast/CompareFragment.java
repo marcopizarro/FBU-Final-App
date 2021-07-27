@@ -138,12 +138,13 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                                 return;
                             } else {
                                 List<Post> intersection = intersection(postsUser1, postsUser2);
-                                double comp = getCompatibilityScore(intersection);
+                                double comp = getCompatibilityScore(intersection, (postsUser1.size() + postsUser2.size()));
                                 tvCompatScore.setText(String.format("You Compatibility Score is %2.2f%%", comp));
                                 Log.i(TAG, String.valueOf(comp));
-                                if(intersection.size() >= 1) {
+                                if (intersection.size() >= 1) {
                                     adapterPodInCommon.clear();
                                     adapterPodInCommon.addAll(intersection);
+
                                     rvPodInCommon.setVisibility(View.VISIBLE);
                                     tvNoItems.setVisibility(View.INVISIBLE);
                                     tvCompatScore.setVisibility(View.VISIBLE);
@@ -162,16 +163,18 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
     }
 
-    private double getCompatibilityScore(List<Post> intersection) {
-        if(intersection.size() <= 0){
+    private double getCompatibilityScore(List<Post> intersection, double totalLogs) {
+        if (intersection.size() <= 0) {
             return 0;
         } else {
             double average = 0;
-            for(Post post : intersection){
+            for (Post post : intersection) {
                 average += post.getRating();
             }
             Log.i(TAG, String.valueOf(average));
-            return 100 - Math.abs((average /= intersection.size()) * 20.0);
+            double pt1 = 80.0 - Math.abs((average /= intersection.size()) * 18.0);
+            double pt2 = 20.0 * (intersection.size() * 2.0 / totalLogs);
+            return pt1 + pt2;
         }
     }
 
@@ -185,7 +188,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                     Post post1 = list1.get(i);
                     Post post2 = list2.get(j);
                     double differential = post1.getRating() - post2.getRating();
-                    if(!spotifyIds.contains(post1.getPodcast())){
+                    if (!spotifyIds.contains(post1.getPodcast())) {
                         post1.setRating(differential);
                         spotifyIds.add(post1.getPodcast());
                         list.add(post1);
