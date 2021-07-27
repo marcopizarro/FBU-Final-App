@@ -163,7 +163,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
     }
 
-    private double getCompatibilityScore(List<Post> intersection, double totalLogs) {
+    public static double getCompatibilityScore(List<Post> intersection, double totalLogs) {
         if (intersection.size() <= 0) {
             return 0;
         } else {

@@ -1,13 +1,11 @@
 package com.marcopizarro.podcast;
 
-//import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EdgeEffect;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,10 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.spotify.sdk.android.auth.LoginActivity;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
@@ -53,7 +49,7 @@ public class PodcastLoginActivity extends AppCompatActivity {
         authToken = i.getStringExtra(AUTH_TOKEN);
         Log.i(TAG, authToken);
 
-        if(ParseUser.getCurrentUser() != null){
+        if (ParseUser.getCurrentUser() != null) {
 //            ParseUser.logOut();
             goMainActivity();
         }
@@ -110,7 +106,7 @@ public class PodcastLoginActivity extends AppCompatActivity {
         });
     }
 
-    private void signUp(String username, String password){
+    private void signUp(String username, String password) {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
