@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,8 +57,10 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     private TextView tvCompatScore;
 
     private RecyclerView rvPodInCommon;
-    private List<Post> podInCommon;
     private CompareAdapter adapterPodInCommon;
+
+    private RecyclerView rvRec;
+    private ProfileAdapter adapterPodRec;
 
     public CompareFragment() {
         // Required empty public constructor
@@ -80,11 +84,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         super.onViewCreated(view, savedInstanceState);
         user1 = MainActivity.getUserParse();
 
-        ivImage1 = view.findViewById(R.id.ivImage1);
-        ivImage2 = view.findViewById(R.id.ivImage2);
 
-        tvName1 = view.findViewById(R.id.tvName1);
-        tvName2 = view.findViewById(R.id.tvName2);
         tvNoItems = view.findViewById(R.id.tvNoItems);
         tvCompatScore = view.findViewById(R.id.tvCompatScore);
 
@@ -92,6 +92,11 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         adapterPodInCommon = new CompareAdapter(getContext(), new ArrayList<>());
         rvPodInCommon.setAdapter(adapterPodInCommon);
         rvPodInCommon.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        rvRec = view.findViewById(R.id.rvRec);
+        adapterPodRec = new ProfileAdapter(getContext(), new ArrayList<>());
+        rvRec.setAdapter(adapterPodRec);
+        rvRec.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         Spinner spinner = (Spinner) view.findViewById(R.id.spinnerCompare);
         spinner.setOnItemSelectedListener(this);
@@ -121,9 +126,6 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
     public void setData(int num) {
         user2 = allUsers.get(num);
-
-        tvName1.setText(user1.getUsername());
-        tvName2.setText(user2.getUsername());
 
         ParseQuery<Post> queryRecent = ParseQuery.getQuery(Post.class);
         queryRecent.addDescendingOrder("createdAt");
@@ -180,8 +182,42 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                                             for( Show show : shows.shows){
                                                 descriptions.add(show.description);
                                             }
-                                            Log.i(TAG, KeywordExtractor.getFrequecy(descriptions));
+                                            String keyword = KeywordExtractor.getFrequecy(descriptions);
+                                            Log.i(TAG, keyword);
 
+                                            SpotifyApi apis = new SpotifyApi();
+                                            apis.setAccessToken(MainActivity.getAuthToken());
+                                            SpotifyService spotifyy = apis.getService();
+
+                                            spotifyy.searchShows(keyword, new SpotifyCallback<ShowsPager>() {
+                                                @Override
+                                                public void failure(SpotifyError error) {
+                                                    Log.i(TAG, "Failure Getting Recommendations");
+                                                }
+
+                                                @Override
+                                                public void success(ShowsPager showsPager, Response response) {
+                                                   Log.i(TAG, showsPager.shows.items.get(0).external_urls.get("spotify"));
+                                                    Log.i(TAG, showsPager.shows.items.get(1).external_urls.get("spotify"));
+                                                    Log.i(TAG, showsPager.shows.items.get(2).external_urls.get("spotify"));
+                                                    List<Show> queryResults = showsPager.shows.items;
+                                                    List<Post> posts = new ArrayList<Post>();
+
+                                                    for(int i = 0; i < 5; i++){
+                                                        Show show = queryResults.get(i);
+
+
+                                                        Post post = new Post();
+                                                        post.setRating(0);
+                                                        post.setPodcast(show.id);
+                                                        posts.add(post);
+                                                    }
+
+
+                                                    adapterPodRec.clear();
+                                                    adapterPodRec.addAll(posts);
+                                                }
+                                            });
                                         }
                                     });
 
