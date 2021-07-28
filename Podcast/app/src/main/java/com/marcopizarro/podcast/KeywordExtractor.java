@@ -24,6 +24,8 @@ public class KeywordExtractor {
         List<String> cleanTokens = clean(tokens);
         Map<String, Integer> freq = analyze(cleanTokens);
         return getHighestFreq(freq);
+//        freq.remove(getHighestFreq(freq));
+//        return getHighestFreq(freq);
     }
 
     private static List<String> tokenize(String str) {

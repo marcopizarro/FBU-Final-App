@@ -27,6 +27,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.SpotifyApi;
+import kaaes.spotify.webapi.android.SpotifyCallback;
+import kaaes.spotify.webapi.android.SpotifyError;
+import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.Show;
+import kaaes.spotify.webapi.android.models.Shows;
+import kaaes.spotify.webapi.android.models.ShowsPager;
+import retrofit.client.Response;
+
 
 public class CompareFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -145,6 +155,36 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                                     adapterPodInCommon.clear();
                                     adapterPodInCommon.addAll(intersection);
 
+                                    List<String> descriptions = new ArrayList<String>();
+                                    StringBuilder ids = new StringBuilder();
+                                    for(int i = 0; i < intersection.size(); i++){
+                                        Post post = intersection.get(i);
+                                        ids.append(post.getPodcast());
+                                        if (i != (intersection.size() - 1)){
+                                            ids.append(",");
+                                        }
+                                    }
+
+                                    SpotifyApi api = new SpotifyApi();
+                                    api.setAccessToken(MainActivity.getAuthToken());
+                                    SpotifyService spotify = api.getService();
+
+                                    spotify.getShows(ids.toString(), new SpotifyCallback<Shows>() {
+                                        @Override
+                                        public void failure(SpotifyError error) {
+                                            Log.i(TAG, "Failure Getting Podcasts");
+                                        }
+
+                                        @Override
+                                        public void success(Shows shows, Response response) {
+                                            for( Show show : shows.shows){
+                                                descriptions.add(show.description);
+                                            }
+                                            Log.i(TAG, KeywordExtractor.getFrequecy(descriptions));
+
+                                        }
+                                    });
+
                                     rvPodInCommon.setVisibility(View.VISIBLE);
                                     tvNoItems.setVisibility(View.INVISIBLE);
                                     tvCompatScore.setVisibility(View.VISIBLE);
@@ -171,7 +211,6 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
             for (Post post : intersection) {
                 average += post.getRating();
             }
-            Log.i(TAG, String.valueOf(average));
             double pt1 = 80.0 - Math.abs((average /= intersection.size()) * 18.0);
             double pt2 = 20.0 * (intersection.size() * 2.0 / totalLogs);
             return pt1 + pt2;

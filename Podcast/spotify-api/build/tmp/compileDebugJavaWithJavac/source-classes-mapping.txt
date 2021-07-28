@@ -24,12 +24,12 @@ kaaes/spotify/webapi/android/models/AudioFeaturesTracks.java
 kaaes/spotify/webapi/android/models/PlaylistTracksInformation.java
  kaaes.spotify.webapi.android.models.PlaylistTracksInformation
  kaaes.spotify.webapi.android.models.PlaylistTracksInformation$1
-kaaes/spotify/webapi/android/models/Followers.java
- kaaes.spotify.webapi.android.models.Followers
- kaaes.spotify.webapi.android.models.Followers$1
 kaaes/spotify/webapi/android/models/Shows.java
  kaaes.spotify.webapi.android.models.Shows
  kaaes.spotify.webapi.android.models.Shows$1
+kaaes/spotify/webapi/android/models/Followers.java
+ kaaes.spotify.webapi.android.models.Followers
+ kaaes.spotify.webapi.android.models.Followers$1
 kaaes/spotify/webapi/android/models/Pager.java
  kaaes.spotify.webapi.android.models.Pager
  kaaes.spotify.webapi.android.models.Pager$1
@@ -114,9 +114,9 @@ kaaes/spotify/webapi/android/models/CategoriesPager.java
 kaaes/spotify/webapi/android/models/AlbumSimple.java
  kaaes.spotify.webapi.android.models.AlbumSimple
  kaaes.spotify.webapi.android.models.AlbumSimple$1
-kaaes/spotify/webapi/android/models/TracksToRemoveWithPosition.java
- kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition
- kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition$1
+kaaes/spotify/webapi/android/models/ShowSimple.java
+ kaaes.spotify.webapi.android.models.ShowSimple
+ kaaes.spotify.webapi.android.models.ShowSimple$1
 kaaes/spotify/webapi/android/models/Tracks.java
  kaaes.spotify.webapi.android.models.Tracks
  kaaes.spotify.webapi.android.models.Tracks$1
@@ -128,9 +128,9 @@ kaaes/spotify/webapi/android/models/PlaylistSimple.java
 kaaes/spotify/webapi/android/models/TrackToRemove.java
  kaaes.spotify.webapi.android.models.TrackToRemove
  kaaes.spotify.webapi.android.models.TrackToRemove$1
-kaaes/spotify/webapi/android/models/ArtistsPager.java
- kaaes.spotify.webapi.android.models.ArtistsPager
- kaaes.spotify.webapi.android.models.ArtistsPager$1
+kaaes/spotify/webapi/android/models/Show.java
+ kaaes.spotify.webapi.android.models.Show
+ kaaes.spotify.webapi.android.models.Show$1
 kaaes/spotify/webapi/android/models/LinkedTrack.java
  kaaes.spotify.webapi.android.models.LinkedTrack
  kaaes.spotify.webapi.android.models.LinkedTrack$1
@@ -161,9 +161,9 @@ kaaes/spotify/webapi/android/models/FeaturedPlaylists.java
 kaaes/spotify/webapi/android/models/Track.java
  kaaes.spotify.webapi.android.models.Track
  kaaes.spotify.webapi.android.models.Track$1
-kaaes/spotify/webapi/android/models/Show.java
- kaaes.spotify.webapi.android.models.Show
- kaaes.spotify.webapi.android.models.Show$1
-kaaes/spotify/webapi/android/models/ShowSimple.java
- kaaes.spotify.webapi.android.models.ShowSimple
- kaaes.spotify.webapi.android.models.ShowSimple$1
+kaaes/spotify/webapi/android/models/TracksToRemoveWithPosition.java
+ kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition
+ kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition$1
+kaaes/spotify/webapi/android/models/ArtistsPager.java
+ kaaes.spotify.webapi.android.models.ArtistsPager
+ kaaes.spotify.webapi.android.models.ArtistsPager$1
