@@ -51,8 +51,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     private ImageView ivImage1;
     private ImageView ivImage2;
 
-    private TextView tvName1;
-    private TextView tvName2;
+    private TextView tvAdd;
     private TextView tvNoItems;
     private TextView tvCompatScore;
 
@@ -61,6 +60,8 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
     private RecyclerView rvRec;
     private ProfileAdapter adapterPodRec;
+
+    com.marcopizarro.podcast.List recList;
 
     public CompareFragment() {
         // Required empty public constructor
@@ -84,7 +85,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
         super.onViewCreated(view, savedInstanceState);
         user1 = MainActivity.getUserParse();
 
-
+        tvAdd = view.findViewById(R.id.tvAdd);
         tvNoItems = view.findViewById(R.id.tvNoItems);
         tvCompatScore = view.findViewById(R.id.tvCompatScore);
 
@@ -120,6 +121,18 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                     spinner.setVisibility(View.VISIBLE);
                     setData(0);
                 }
+            }
+        });
+
+        tvAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recList.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Toast.makeText(getContext(), "List Added!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -201,18 +214,20 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
                                                     Log.i(TAG, showsPager.shows.items.get(1).external_urls.get("spotify"));
                                                     Log.i(TAG, showsPager.shows.items.get(2).external_urls.get("spotify"));
                                                     List<Show> queryResults = showsPager.shows.items;
+                                                    recList = new com.marcopizarro.podcast.List();
                                                     List<Post> posts = new ArrayList<Post>();
-
                                                     for(int i = 0; i < 5; i++){
                                                         Show show = queryResults.get(i);
 
+                                                        recList.setName(String.format("Listen With %s",user2.getUsername()));
+                                                        recList.setUser(ParseUser.getCurrentUser());
+                                                        recList.add("podcasts", show.id);
 
                                                         Post post = new Post();
                                                         post.setRating(0);
                                                         post.setPodcast(show.id);
                                                         posts.add(post);
                                                     }
-
 
                                                     adapterPodRec.clear();
                                                     adapterPodRec.addAll(posts);
