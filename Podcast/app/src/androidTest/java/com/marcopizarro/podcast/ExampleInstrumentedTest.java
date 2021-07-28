@@ -44,7 +44,6 @@ public class ExampleInstrumentedTest {
                 .server("https://parseapi.back4app.com/")
                 .build());
 
-
         ParseUser.logInInBackground("marco", "123", new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
