@@ -139,7 +139,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         reloadLists();
 
-
         int sum = 0;
         ParseQuery<Post> averageQuery = ParseQuery.getQuery(Post.class);
         averageQuery.whereEqualTo(Post.KEY_USER, parseUser);
@@ -164,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void reloadLists() {
+    public void reloadLists() {
         ParseQuery<com.marcopizarro.podcast.List> queryLists = ParseQuery.getQuery(com.marcopizarro.podcast.List.class);
         queryLists.addDescendingOrder("createdAt");
         queryLists.include(Post.KEY_USER);
