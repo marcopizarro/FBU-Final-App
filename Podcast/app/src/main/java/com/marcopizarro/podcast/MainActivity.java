@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logOut:
             default:
                 ParseUser.logOut();
-                AuthorizationClient.clearCookies(MainActivity.this);
+//                AuthorizationClient.clearCookies(MainActivity.this);
                 Intent i = new Intent(MainActivity.this, SpotifyLoginActivity.class);
                 startActivity(i);
                 finish();

@@ -31,9 +31,6 @@ public class NewListDialogFragment extends DialogFragment {
         builder.setView(input);
 
         builder.setTitle("Create new List")
-                // Specify the list array, the items to be selected by default (null for none),
-                // and the listener through which to receive callbacks when items are selected
-                // Set the action buttons
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -43,12 +40,7 @@ public class NewListDialogFragment extends DialogFragment {
                         dismiss();
                     }
                 });
-//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                   ...
-//                    }
-//                });
+
         return builder.create();
     }
 }
