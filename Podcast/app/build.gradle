@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -54,4 +55,6 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     compile 'ca.rmen:porter-stemmer:1.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 }
