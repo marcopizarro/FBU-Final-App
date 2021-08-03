@@ -15,25 +15,25 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/cover_photo"
+        android:transitionName="profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        android:transitionName="profile"/>
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvShowTitle"
-        android:transitionName="title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/ivShowPhoto"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:transitionName="title"
         tools:text="Talking Points" />
 
     <TextView
         android:id="@+id/tvShowPublisher"
-        android:transitionName="pub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvShowTitle"
@@ -41,6 +41,7 @@
         android:layout_marginTop="12dp"
         android:layout_toEndOf="@+id/ivShowPhoto"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:transitionName="pub"
         tools:text="The Points Guy" />
 
 </RelativeLayout>

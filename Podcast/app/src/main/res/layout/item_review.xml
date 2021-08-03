@@ -33,6 +33,5 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         app:layout_constraintStart_toEndOf="@+id/tvName"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Well the thing is that I like this show a lot, but I'm just trying to extend this so that I see what it look like with multiple lines" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

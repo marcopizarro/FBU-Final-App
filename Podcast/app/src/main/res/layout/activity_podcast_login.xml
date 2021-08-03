@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".SpotifyLoginActivity">
-
 
     <EditText
         android:id="@+id/etPassword"
@@ -18,9 +16,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:autofillHints="@string/password"
         android:background="@color/black"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="@color/white" />
 
@@ -33,9 +32,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="112dp"
         android:layout_marginEnd="20dp"
+        android:autofillHints="@string/username"
         android:background="@color/black"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:textColor="@color/white" />
 
@@ -49,7 +49,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="173dp"
         android:layout_marginEnd="158dp"
-        android:text="Sign In" />
+        android:text="@string/sign_in" />
 
     <Button
         android:id="@+id/btnSignUp"
@@ -61,6 +61,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="161dp"
-        android:text="Sign Up" />
+        android:text="@string/sign_up" />
 
 </RelativeLayout>
