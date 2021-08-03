@@ -86,7 +86,7 @@ public class ExploreFragment extends Fragment {
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(-31.952854, 115.857342))
                         .title("The Daily")
-                .       snippet("The New York Times"));
+                        .snippet("The New York Times"));
             }
         });
 

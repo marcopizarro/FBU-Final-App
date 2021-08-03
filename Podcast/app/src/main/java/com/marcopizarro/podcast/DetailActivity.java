@@ -65,7 +65,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         Intent intent = getIntent();
         show = (Show) Parcels.unwrap(getIntent().getParcelableExtra("show"));
 
-        ivCover = findViewById(R.id.ivCover);
+        ivCover = findViewById(R.id.ivShowPhoto);
         tvTitle = findViewById(R.id.tvTitle);
         tvPublisher = findViewById(R.id.tvPublisher);
         rbStars = findViewById(R.id.rbStars);

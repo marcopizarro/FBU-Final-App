@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, authToken);
         SpotifyService spotify = api.getService();
 
+
         spotify.getMe(new SpotifyCallback<UserPrivate>() {
             @Override
-            public void failure(SpotifyError error) {
-            }
+            public void failure(SpotifyError error) {}
 
             @Override
             public void success(UserPrivate userPrivate, Response response) {
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            //Back button
             case R.id.logOut:
             default:
                 ParseUser.logOut();

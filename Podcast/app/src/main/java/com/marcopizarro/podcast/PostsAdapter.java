@@ -1,5 +1,6 @@
 package com.marcopizarro.podcast;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -103,7 +106,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                             public void success(Show show, Response response) {
                                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                                 intent.putExtra("show", Parcels.wrap(show));
-                                view.getContext().startActivity(intent);
+                                Pair<View, String> p1 = Pair.create((View)ivPostImage, "profile");
+                                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, p1);
+                                view.getContext().startActivity(intent, options.toBundle());
                             }
                         });
                     }

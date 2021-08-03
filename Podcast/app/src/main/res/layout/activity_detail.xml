@@ -16,15 +16,17 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/ivCover"
+                android:id="@+id/ivShowPhoto"
                 android:layout_width="175dp"
                 android:layout_height="175dp"
                 android:layout_marginStart="115dp"
                 android:layout_marginTop="12dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                android:transitionName="profile"/>
 
             <TextView
                 android:id="@+id/tvTitle"
+                android:transitionName="title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
@@ -35,6 +37,7 @@
 
             <TextView
                 android:id="@+id/tvPublisher"
+                android:transitionName="pub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
