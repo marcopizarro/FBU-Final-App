@@ -33,7 +33,6 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Albums;
 import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.Shows;
 import kaaes.spotify.webapi.android.models.ShowsPager;
@@ -64,19 +63,16 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
     com.marcopizarro.podcast.List recList;
 
     public CompareFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_compare, container, false);
     }
 
@@ -172,10 +168,10 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
                                     List<String> descriptions = new ArrayList<String>();
                                     StringBuilder ids = new StringBuilder();
-                                    for(int i = 0; i < intersection.size(); i++){
+                                    for (int i = 0; i < intersection.size(); i++) {
                                         Post post = intersection.get(i);
                                         ids.append(post.getPodcast());
-                                        if (i != (intersection.size() - 1)){
+                                        if (i != (intersection.size() - 1)) {
                                             ids.append(",");
                                         }
                                     }
@@ -192,7 +188,7 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
                                         @Override
                                         public void success(Shows shows, Response response) {
-                                            for( Show show : shows.shows){
+                                            for (Show show : shows.shows) {
                                                 descriptions.add(show.description);
                                             }
                                             String keyword = KeywordExtractor.getFrequecy(descriptions);
@@ -210,16 +206,16 @@ public class CompareFragment extends Fragment implements AdapterView.OnItemSelec
 
                                                 @Override
                                                 public void success(ShowsPager showsPager, Response response) {
-                                                   Log.i(TAG, showsPager.shows.items.get(0).external_urls.get("spotify"));
+                                                    Log.i(TAG, showsPager.shows.items.get(0).external_urls.get("spotify"));
                                                     Log.i(TAG, showsPager.shows.items.get(1).external_urls.get("spotify"));
                                                     Log.i(TAG, showsPager.shows.items.get(2).external_urls.get("spotify"));
                                                     List<Show> queryResults = showsPager.shows.items;
                                                     recList = new com.marcopizarro.podcast.List();
                                                     List<Post> posts = new ArrayList<Post>();
-                                                    for(int i = 0; i < 5; i++){
+                                                    for (int i = 0; i < 5; i++) {
                                                         Show show = queryResults.get(i);
 
-                                                        recList.setName(String.format("Listen With %s",user2.getUsername()));
+                                                        recList.setName(String.format("Listen With %s", user2.getUsername()));
                                                         recList.setUser(ParseUser.getCurrentUser());
                                                         recList.add("podcasts", show.id);
 

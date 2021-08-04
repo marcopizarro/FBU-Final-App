@@ -26,7 +26,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     private Context context;
     private List<String> shows;
-    public static final String TAG = "PostsAdapter";
+    public static final String TAG = "ListAdapter";
 
     public ListAdapter(Context context, List<String> shows) {
         this.context = context;
@@ -118,7 +118,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             tvPostUsername.setText("");
             tvPostDesc.setText("");
         }
-
 
     }
 }

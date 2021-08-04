@@ -1,5 +1,6 @@
 package com.marcopizarro.podcast;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -36,13 +37,11 @@ public class ReviewTextAdapter extends RecyclerView.Adapter<ReviewTextAdapter.Vi
         this.posts = posts;
     }
 
-    // Clean all elements of the recycler
     public void clear() {
         posts.clear();
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
@@ -81,6 +80,7 @@ public class ReviewTextAdapter extends RecyclerView.Adapter<ReviewTextAdapter.Vi
             tvStar = itemView.findViewById(R.id.tvStar);
         }
 
+        @SuppressLint("DefaultLocale")
         public void bind(Post post) {
             tvDesc.setText(post.getCaption());
             tvStar.setText(String.format("%1.1f★", post.getRating()));

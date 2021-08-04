@@ -28,13 +28,11 @@ public class TimelineFragment extends Fragment {
     public static final String TAG = "TimelineFragment";
 
     private RecyclerView rvPosts;
-    private List<Post> allPosts;
     private PostsAdapter postsAdapter;
     private SwipeRefreshLayout swipeContainer;
 
 
     public TimelineFragment() {
-        // Required empty public constructor
     }
 
 
@@ -47,7 +45,6 @@ public class TimelineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_timeline, container, false);
     }
 
@@ -59,9 +56,6 @@ public class TimelineFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 queryData();
             }
         });
@@ -71,14 +65,12 @@ public class TimelineFragment extends Fragment {
                 android.R.color.holo_red_light);
 
         rvPosts = view.findViewById(R.id.rvPostsTop);
-        allPosts = new ArrayList<>();
-        postsAdapter = new PostsAdapter(getContext(), allPosts);
+        postsAdapter = new PostsAdapter(getContext(), new ArrayList<>());
         rvPosts.setAdapter(postsAdapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryData();
         swipeContainer.setRefreshing(true);
     }
-
 
     private void queryData() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
@@ -94,33 +86,12 @@ public class TimelineFragment extends Fragment {
                 } else {
                     swipeContainer.setRefreshing(false);
 
-//                    for (int i = 0; i < posts.size(); i++){
-//                        SpotifyApi api = new SpotifyApi();
-//                        api.setAccessToken(MainActivity.getAuthToken());
-//                        SpotifyService spotify = api.getService();
-//                        Post post = posts.get(i);
-//                        spotify.getShow(post.getPodcast(), new SpotifyCallback<Show>() {
-//                            @Override
-//                            public void failure(SpotifyError error) {
-//                                Log.i(TAG, "error fetching", error);
-//                            }
-//
-//                            @Override
-//                            public void success(Show showSimple, Response response) {
-//                                post.setPodObj(showSimple);
-////                                Log.i(TAG, showSimple.name);
-//                            }
-//                        });
-//                    }
                     postsAdapter.clear();
-                    allPosts.addAll(posts);
-                    postsAdapter.notifyDataSetChanged();
-
+                    postsAdapter.addAll(posts);
                 }
             }
         });
     }
-
 
     @Override
     public void onAttach(@NonNull @NotNull Context context) {

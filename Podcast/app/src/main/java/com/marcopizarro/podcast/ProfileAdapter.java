@@ -83,7 +83,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             ivPostImage = itemView.findViewById(R.id.ivShowPhoto);
             tvPostTitle = itemView.findViewById(R.id.tvShowTitle);
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

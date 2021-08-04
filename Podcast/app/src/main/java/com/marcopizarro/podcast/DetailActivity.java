@@ -39,8 +39,6 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
     public static final int REQUEST_CODE = 40;
 
     private ReviewTextAdapter reviewTextAdapter;
-    private RecyclerView rvReviews;
-    private List<Post> allReviews;
     private List<com.marcopizarro.podcast.List> allLists;
 
     private int chosenList = 0;
@@ -53,6 +51,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
     TextView tvLog;
     RatingBar rbStars;
     Show show;
+    RecyclerView rvReviews;
 
 
     private boolean descExtStatus = false;
@@ -62,7 +61,6 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Intent intent = getIntent();
         show = (Show) Parcels.unwrap(getIntent().getParcelableExtra("show"));
 
         ivCover = findViewById(R.id.ivShowPhoto);
@@ -74,8 +72,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         rvReviews = findViewById(R.id.rvReviews);
         tvAddToList = findViewById(R.id.tvAddToList);
 
-        allReviews = new ArrayList<>();
-        reviewTextAdapter = new ReviewTextAdapter(this, allReviews);
+        reviewTextAdapter = new ReviewTextAdapter(this, new ArrayList<>());
         rvReviews.setAdapter(reviewTextAdapter);
         rvReviews.setLayoutManager(new LinearLayoutManager(this));
 
@@ -123,7 +120,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
                         if (e != null) {
                             Log.e(TAG, "Unable to fetch posts", e);
                             return;
-                        } else if(posts.size() <= 0){
+                        } else if (posts.size() <= 0) {
                             Intent i = new Intent(DetailActivity.this, ComposeActivity.class);
                             i.putExtra("show", Parcels.wrap(Parcels.unwrap(getIntent().getParcelableExtra("show"))));
                             startActivityForResult(i, REQUEST_CODE);
@@ -210,9 +207,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
                     rbStars.setIsIndicator(true);
                     rbStars.setRating(averageRating);
                     reviewTextAdapter.clear();
-                    allReviews.clear();
-                    allReviews.addAll(posts);
-                    reviewTextAdapter.notifyDataSetChanged();
+                    reviewTextAdapter.addAll(posts);
                 }
             }
         });

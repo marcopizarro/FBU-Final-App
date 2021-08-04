@@ -15,28 +15,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.ShowsPager;
 import retrofit.client.Response;
 
@@ -45,17 +40,12 @@ public class ExploreFragment extends Fragment {
 
     public static final String TAG = "ExploreFragment";
 
-    private RecyclerView rvResults;
     private ResultsAdapter resultsAdapter;
-    private List<Show> allShows;
     private EditText etQuery;
-    private Button btnSearch;
 
     MapView mapView;
-    GoogleMap map;
 
     public ExploreFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -67,7 +57,6 @@ public class ExploreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_explore, container, false);
         mapView = (MapView) v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -98,15 +87,13 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
-        rvResults = view.findViewById(R.id.rvResults);
-        allShows = new ArrayList<>();
-        resultsAdapter = new ResultsAdapter(getContext(), allShows);
+        RecyclerView rvResults = view.findViewById(R.id.rvResults);
+        resultsAdapter = new ResultsAdapter(getContext(), new ArrayList<>());
         rvResults.setAdapter(resultsAdapter);
         rvResults.setLayoutManager(new LinearLayoutManager(getContext()));
 
         etQuery = view.findViewById(R.id.etQuery);
-        btnSearch = getActivity().findViewById(R.id.btnSearch);
+        Button btnSearch = view.findViewById(R.id.btnSearch);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +111,7 @@ public class ExploreFragment extends Fragment {
                     @Override
                     public void success(ShowsPager showsPager, Response response) {
                         resultsAdapter.clear();
-                        allShows.addAll(showsPager.shows.items);
-                        resultsAdapter.notifyDataSetChanged();
+                        resultsAdapter.addAll(showsPager.shows.items);
                     }
                 });
             }

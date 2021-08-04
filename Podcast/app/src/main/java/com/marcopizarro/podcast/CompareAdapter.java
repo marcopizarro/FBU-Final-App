@@ -1,5 +1,6 @@
 package com.marcopizarro.podcast;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -66,9 +67,9 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvPostUsername;
-        private ImageView ivPostImage;
-        private TextView tvPostTitle;
+        private final TextView tvPostUsername;
+        private final ImageView ivPostImage;
+        private final TextView tvPostTitle;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,7 +91,6 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
                         spotify.getShow(posts.get(position).getPodcast(), new SpotifyCallback<Show>() {
                             @Override
                             public void failure(SpotifyError error) {
-
                             }
 
                             @Override
@@ -126,6 +126,7 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
 
         }
 
+        @SuppressLint("DefaultLocale")
         private void setContent(Post post, Show show) {
             Glide.with(context)
                     .load(show.images.get(0).url)
@@ -133,13 +134,13 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
             tvPostTitle.setText(show.name);
             double differential = post.getRating();
             String comparison;
-            if (differential > 0){
+            if (differential > 0) {
                 comparison = String.format("You Rated %1.1f★ Higher", differential);
-            } else if (differential < 0){
+            } else if (differential < 0) {
                 differential = -differential;
                 comparison = String.format("You Rated %1.1f★ Lower", differential);
             } else {
-                comparison = String.format("You Rated This Podcast The Same", differential);
+                comparison = "You Rated This Podcast The Same";
             }
             tvPostUsername.setText(comparison);
         }
@@ -151,7 +152,5 @@ public class CompareAdapter extends RecyclerView.Adapter<CompareAdapter.ViewHold
                     .into(ivPostImage);
             tvPostUsername.setText("");
         }
-
-
     }
 }

@@ -2,21 +2,17 @@ package com.marcopizarro.podcast;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 
 public class NewListDialogFragment extends DialogFragment {
 

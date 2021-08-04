@@ -24,7 +24,6 @@ import kaaes.spotify.webapi.android.models.UserPrivate;
 
 import retrofit.client.Response;
 
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
@@ -58,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         spotify.getMe(new SpotifyCallback<UserPrivate>() {
             @Override
-            public void failure(SpotifyError error) {}
+            public void failure(SpotifyError error) {
+            }
 
             @Override
             public void success(UserPrivate userPrivate, Response response) {
                 userSpotify = userPrivate;
             }
         });
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logOut:
             default:
                 ParseUser.logOut();
-//                AuthorizationClient.clearCookies(MainActivity.this);
+                AuthorizationClient.clearCookies(MainActivity.this);
                 Intent i = new Intent(MainActivity.this, SpotifyLoginActivity.class);
                 startActivity(i);
                 finish();
@@ -132,40 +131,3 @@ public class MainActivity extends AppCompatActivity {
         return userParse;
     }
 }
-
-//        spotify.getShow("61CK08LG8FRIzfiPBl8Oq2", new SpotifyCallback<ShowSimple>() {
-//            @Override
-//            public void failure(SpotifyError error) {
-//                Log.i(TAG, "error fetching", error);
-//            }
-//
-//            @Override
-//            public void success(ShowSimple showSimple, Response response) {
-//                Log.i(TAG, "succeess");
-//                Log.i(TAG, showSimple.name);
-//                Log.i(TAG, showSimple.publisher);
-//
-//                tvMain.setText(showSimple.name);
-//                tvArtist.setText(showSimple.publisher);
-//                Glide.with(MainActivity.this)
-//                        .load(showSimple.images.get(0).url)
-//                        .into(ivAlbum);
-//            }
-//        });
-
-//        spotify.searchShows("talking points", new SpotifyCallback<ShowsPager>() {
-//            @Override
-//            public void failure(SpotifyError error) {
-//
-//            }
-//
-//            @Override
-//            public void success(ShowsPager showsPager, Response response) {
-//                Show show =  showsPager.shows.items.get(1);
-//                tvMain.setText(show.name);
-//                tvArtist.setText(show.publisher);
-//                Glide.with(MainActivity.this)
-//                        .load(show.images.get(0).url)
-//                        .into(ivAlbum);
-//            }
-//        });

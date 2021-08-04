@@ -90,7 +90,6 @@ public class Post extends ParseObject {
             Log.i("Error:", "getRelativeTimeAgo failed", e);
             e.printStackTrace();
         }
-
         return "";
     }
 }

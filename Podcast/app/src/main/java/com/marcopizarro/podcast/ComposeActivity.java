@@ -44,6 +44,7 @@ public class ComposeActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         rbCompRating = findViewById(R.id.rbCompRating);
         ivCompCover = findViewById(R.id.ivCompCover);
+
         Intent intent = getIntent();
         Show show = (Show) Parcels.unwrap(getIntent().getParcelableExtra("show"));
 
@@ -70,15 +71,7 @@ public class ComposeActivity extends AppCompatActivity {
                             Toast.makeText(ComposeActivity.this, "Error Saving", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        Log.i(TAG, "Post saved");
-//                        Intent i = new Intent(ComposeActivity.this, MainActivity.class);
-//                        i.putExtra();
                         finish();
-//                        finishActivity(40);
-//                        Intent i = new Intent(ComposeActivity.this, DetailActivity.class);
-//                        startActivity(i);
-//                        finish();
-
                     }
                 });
             }

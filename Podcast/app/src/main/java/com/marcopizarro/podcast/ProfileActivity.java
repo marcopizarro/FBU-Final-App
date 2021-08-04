@@ -1,38 +1,26 @@
 package com.marcopizarro.podcast;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
-import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.UserPrivate;
-
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -47,18 +35,15 @@ public class ProfileActivity extends AppCompatActivity {
     UserPrivate userSpotify = MainActivity.getUserSpotify();
 
     private RecyclerView rvPostsTop;
-    private List<Post> topPosts;
     private ProfileAdapter profileAdapterTop;
 
     private RecyclerView rvPostsRecent;
-    private List<Post> recentPosts;
     private ProfileAdapter profileAdapterRecent;
 
     private RecyclerView rvLists;
-    private List<com.marcopizarro.podcast.List> lists;
     private ProfileListsAdapter profileListsAdapter;
 
-    public static final int NEW_LIST = 1; // class variable
+    public static final int NEW_LIST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,31 +57,20 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileName = findViewById(R.id.tvProfileName);
         tvAverage = findViewById(R.id.tvAvgRating);
 
-//        if (userSpotify != null) {
-//            if (userSpotify.images != null & userSpotify.images.get(0).url != null) {
-//                Glide.with(this)
-//                        .load(userSpotify.images.get(0).url)
-//                        .circleCrop()
-//                        .into(ivProfileImage);
-//            }
-            tvProfileName.setText(parseUser.getUsername());
-//        }
+        tvProfileName.setText(parseUser.getUsername());
 
         rvPostsTop = findViewById(R.id.rvPostsTop);
-        topPosts = new ArrayList<>();
-        profileAdapterTop = new ProfileAdapter(this, topPosts);
+        profileAdapterTop = new ProfileAdapter(this, new ArrayList<>());
         rvPostsTop.setAdapter(profileAdapterTop);
         rvPostsTop.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         rvPostsRecent = findViewById(R.id.rvPostsRecent);
-        recentPosts = new ArrayList<>();
-        profileAdapterRecent = new ProfileAdapter(this, recentPosts);
+        profileAdapterRecent = new ProfileAdapter(this, new ArrayList<>());
         rvPostsRecent.setAdapter(profileAdapterRecent);
         rvPostsRecent.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         rvLists = findViewById(R.id.rvLists);
-        lists = new ArrayList<>();
-        profileListsAdapter = new ProfileListsAdapter(this, lists);
+        profileListsAdapter = new ProfileListsAdapter(this, new ArrayList<>());
         rvLists.setAdapter(profileListsAdapter);
         rvLists.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -113,8 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return;
                 } else {
                     profileAdapterTop.clear();
-                    topPosts.addAll(posts);
-                    profileAdapterTop.notifyDataSetChanged();
+                    profileAdapterTop.addAll(posts);
                 }
             }
         });
