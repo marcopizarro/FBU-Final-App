@@ -22,6 +22,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +68,7 @@ public class ExploreFragment extends Fragment {
             public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
                 googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 //                googleMap.setMyLocationEnabled(true);
+                googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.style_json));
 
                 MapsInitializer.initialize(getActivity());
 

@@ -1,21 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".SpotifyLoginActivity">
 
-    <Button
-        android:id="@+id/btnLogin"
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="20dp"
+        android:autofillHints="@string/username"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="245dp"
+        android:layout_marginEnd="20dp"
+        android:autofillHints="@string/password"
+        android:background="@color/black"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="341dp"
-        android:backgroundTint="#129F4A"
-        android:text="@string/link_your_spotify_account"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="145dp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="#124f9f"
+            android:text="@string/sign_in" />
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="#124f9f"
+            android:text="@string/sign_up" />
+
+        <ImageView
+            android:id="@+id/spotBlue"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:srcCompat="@drawable/blue_check" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linkSpot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btns"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSpotLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="#1DB954"
+            android:text="@string/link_your_spotify_account"
+            tools:layout_editor_absoluteX="134dp"
+            tools:layout_editor_absoluteY="145dp" />
+
+        <ImageView
+            android:id="@+id/spotGreen"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/green_check" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linkSpot"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="180dp"
+        android:rotation="90"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_baseline_arrow_circle_up_24" />
 
 </RelativeLayout>

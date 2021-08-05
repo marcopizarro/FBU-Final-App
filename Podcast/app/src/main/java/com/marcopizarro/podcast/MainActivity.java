@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -29,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     public static final String AUTH_TOKEN = "AUTH_TOKEN";
 
-    private BottomNavigationView bottomNavigationView;
-    private Toolbar toolbar;
-
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
     public static ParseUser userParse;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         userParse = ParseUser.getCurrentUser();
 
@@ -51,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
         authToken = i.getStringExtra(AUTH_TOKEN);
         SpotifyApi api = new SpotifyApi();
         api.setAccessToken(authToken);
-        Log.i(TAG, authToken);
         SpotifyService spotify = api.getService();
-
 
         spotify.getMe(new SpotifyCallback<UserPrivate>() {
             @Override
@@ -91,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.btnTimeline);
 
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
     }
 
@@ -116,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signOut() {
-        Log.i(TAG, "logged out");
+        Log.i(TAG, "Logged Out");
     }
 
     public static String getAuthToken() {

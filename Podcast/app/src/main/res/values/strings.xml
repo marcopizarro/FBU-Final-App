@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Podcast</string>
+    <string name="app_name">Podcastr</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
 
     <!-- Change the following strings as required -->
