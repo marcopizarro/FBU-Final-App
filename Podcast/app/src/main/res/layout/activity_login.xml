@@ -11,11 +11,11 @@
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="53dp"
         android:layout_marginEnd="20dp"
         android:autofillHints="@string/username"
         android:background="@color/black"
@@ -28,11 +28,11 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/etUsername"
         android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="245dp"
+        android:layout_marginTop="49dp"
         android:layout_marginEnd="20dp"
         android:autofillHints="@string/password"
         android:background="@color/black"
@@ -45,7 +45,9 @@
         android:id="@+id/btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/etPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
         android:orientation="horizontal">
 
         <Button
@@ -118,5 +120,16 @@
         android:rotation="90"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_baseline_arrow_circle_up_24" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/logopng" />
 
 </RelativeLayout>

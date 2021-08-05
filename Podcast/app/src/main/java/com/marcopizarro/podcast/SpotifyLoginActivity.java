@@ -44,7 +44,7 @@ public class SpotifyLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spotify_login);
+        setContentView(R.layout.activity_login);
 
         btnSpotLogin = findViewById(R.id.btnSpotLogin);
         spotGreen = findViewById(R.id.spotGreen);
@@ -56,7 +56,8 @@ public class SpotifyLoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
 
         if (ParseUser.getCurrentUser() != null){
-            completeLoginUp();
+//            completeLoginUp();
+            ParseUser.logOut();
         }
 
         btnSpotLogin.setOnClickListener(new View.OnClickListener() {
