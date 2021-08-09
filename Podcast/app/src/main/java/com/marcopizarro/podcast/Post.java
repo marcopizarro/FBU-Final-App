@@ -2,7 +2,9 @@ package com.marcopizarro.podcast;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -16,6 +18,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_PODCAST = "podcast";
     public static final String KEY_RATING = "rating";
+    public static final String KEY_LOCATION = "location";
     public Show podObj;
 
     public String getCaption() {
@@ -50,13 +53,14 @@ public class Post extends ParseObject {
         put(KEY_USER, parseUser);
     }
 
-    public Show getPodObj() {
-        return podObj;
+
+    public ParseGeoPoint getLocation() { return (ParseGeoPoint) get(KEY_LOCATION); }
+
+    public void setLocation(ParseGeoPoint loc) {
+        put(KEY_LOCATION, loc);
     }
 
-    public void setPodObj(Show show) {
-        this.podObj = show;
-    }
+
 
     public static String calculateTimeAgo(Date createdAt) {
 

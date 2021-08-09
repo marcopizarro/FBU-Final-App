@@ -96,8 +96,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                 signUp(username, password);
             }
         });
-
-
     }
 
     private void login(String username, String password) {
@@ -108,7 +106,6 @@ public class SpotifyLoginActivity extends AppCompatActivity {
                     Log.i(TAG, "Error Logging in", e);
                     Toast.makeText(SpotifyLoginActivity.this, "Invalid username/password", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(SpotifyLoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                     completeLoginUp();
                     checkBothCompleted();
                 }

@@ -2,7 +2,9 @@ package com.marcopizarro.podcast;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,7 +22,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,15 +44,21 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyCallback;
 import kaaes.spotify.webapi.android.SpotifyError;
 import kaaes.spotify.webapi.android.SpotifyService;
+import kaaes.spotify.webapi.android.models.Show;
 import kaaes.spotify.webapi.android.models.ShowsPager;
 import retrofit.client.Response;
 
@@ -86,7 +96,6 @@ public class ExploreFragment extends Fragment {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
 
-
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
         } else {
@@ -113,14 +122,15 @@ public class ExploreFragment extends Fragment {
                 makeMap();
             }
         }
-
     }
-    public void makeMap(){
+
+    public void makeMap() {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @SuppressLint("MissingPermission")
             @Override
             public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
                 googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
                 if (locationGranted) {
                     googleMap.setMyLocationEnabled(true);
                 }
@@ -134,10 +144,40 @@ public class ExploreFragment extends Fragment {
 
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
                 gMap.animateCamera(cameraUpdate);
-                gMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(-31.952854, 115.857342))
-                        .title("The Daily")
-                        .snippet("The New York Times"));
+
+                SpotifyApi api = new SpotifyApi();
+                api.setAccessToken(MainActivity.getAuthToken());
+                SpotifyService spotify = api.getService();
+
+                ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+                query.addDescendingOrder("createdAt");
+                query.setLimit(20);
+                query.include(Post.KEY_USER);
+                query.findInBackground(new FindCallback<Post>() {
+                    @Override
+                    public void done(List<Post> posts, ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Unable to fetch posts", e);
+                            return;
+                        } else {
+                            for (Post p : posts) {
+                                if (p.getLocation() != null) {
+                                    spotify.getShow(p.getPodcast(), new SpotifyCallback<Show>() {
+                                        @Override
+                                        public void failure(SpotifyError error) {}
+                                        @Override
+                                        public void success(Show show, Response response) {
+                                            gMap.addMarker(new MarkerOptions()
+                                                    .position(new LatLng(p.getLocation().getLatitude(), p.getLocation().getLongitude()))
+                                                    .title(show.name)
+                                                    .snippet(show.publisher));
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
             }
         });
     }
@@ -145,7 +185,6 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         RecyclerView rvResults = view.findViewById(R.id.rvResults);
         resultsAdapter = new ResultsAdapter(getContext(), new ArrayList<>());
@@ -195,6 +234,7 @@ public class ExploreFragment extends Fragment {
         super.onLowMemory();
         mapView.onLowMemory();
     }
+
     private void getDeviceLocation() {
         try {
             @SuppressLint("MissingPermission") Task<Location> locationResult = fusedLocationClient.getLastLocation();
@@ -202,7 +242,6 @@ public class ExploreFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
                     if (task.isSuccessful()) {
-                        // Set the map's camera position to the current location of the device.
                         Location location = task.getResult();
                         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(currentLatLng, 10);
