@@ -1,5 +1,8 @@
 # Podcastr App
 
+<img src="https://github.com/marcopizarro/FBU-Final-App/blob/main/Demo/podcastrDemo.gif" alt="app demo" width="250"/>
+
+
 ## Table of Contents
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
